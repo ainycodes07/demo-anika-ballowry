@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anika Ballowry — Writer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fog: #e8e6e1;
+    --mist: #d4d0c8;
+    --stone: #9a9690;
+    --slate: #6b6b72;
+    --ink: #2e2d2b;
+    --sage: #8a9e8e;
+    --blue-grey: #8896a4;
+    --warm-white: #f5f3ef;
+    --paper: #ede9e2;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--warm-white);
+    color: var(--ink);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Noise texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.035;
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  /* ——— NAV ——— */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 28px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to bottom, rgba(245,243,239,0.95) 0%, rgba(245,243,239,0) 100%);
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    color: var(--ink);
+    text-decoration: none;
+    font-style: italic;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--slate);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .nav-links a:hover { color: var(--ink); }
+
+  /* ——— HERO ——— */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 60px 80px 60px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 6vw, 5.5rem);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.35s forwards;
+  }
+
+  .hero-name em {
+    font-style: italic;
+    color: var(--blue-grey);
+  }
+
+  .hero-tagline {
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--slate);
+    max-width: 380px;
+    margin-bottom: 52px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.5s forwards;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.65s forwards;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    padding: 14px 34px;
+    background: var(--ink);
+    color: var(--warm-white);
+    font-family: 'Jost', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+
+  .btn-primary:hover {
+    background: var(--slate);
+    transform: translateY(-1px);
+  }
+
+  .btn-ghost {
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--stone);
+    text-decoration: none;
+    border-bottom: 1px solid var(--mist);
+    padding-bottom: 2px;
+    transition: color 0.3s, border-color 0.3s;
+  }
+
+  .btn-ghost:hover {
+    color: var(--ink);
+    border-color: var(--stone);
+  }
+
+  /* Hero right — atmospheric image panel */
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-image-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(135deg, rgba(232,230,225,0.6) 0%, transparent 50%),
+      linear-gradient(to bottom, rgba(245,243,239,0.1) 0%, rgba(107,107,114,0.15) 100%);
+    background-color: #c8ccc8;
+  }
+
+  /* Layered fog shapes */
+  .fog-layer {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .fog-layer::before {
+    content: '';
+    position: absolute;
+    width: 120%;
+    height: 60%;
+    bottom: 0; left: -10%;
+    background: radial-gradient(ellipse at 50% 100%, rgba(212,208,200,0.7) 0%, transparent 70%);
+    filter: blur(40px);
+  }
+
+  .fog-layer::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 40%;
+    top: 20%; left: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(232,230,225,0.5) 0%, transparent 60%);
+    filter: blur(30px);
+  }
+
+  .hero-image-text {
+    position: absolute;
+    bottom: 48px;
+    right: 40px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    font-style: italic;
+    color: rgba(46,45,43,0.45);
+    letter-spacing: 0.05em;
+  }
+
+  /* Decorative vertical line */
+  .hero-line {
+    position: absolute;
+    left: 0;
+    top: 15%;
+    bottom: 15%;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--mist), transparent);
+  }
+
+  /* Floating quote in hero right */
+  .hero-quote {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 70%;
+    opacity: 0;
+    animation: fadeIn 1.2s ease 1s forwards;
+  }
+
+  .hero-quote blockquote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-style: italic;
+    font-weight: 300;
+    color: rgba(46,45,43,0.7);
+    line-height: 1.6;
+    letter-spacing: 0.02em;
+  }
+
+  .hero-quote cite {
+    display: block;
+    margin-top: 16px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.65rem;
+    font-style: normal;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--sage);
+  }
+
+  /* ——— SECTION SHARED ——— */
+  section {
+    padding: 100px 60px;
+  }
+
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 16px;
+  }
+
+  /* ——— ABOUT ——— */
+  .about {
+    background: var(--paper);
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 80px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about::before {
+    content: '"';
+    position: absolute;
+    top: -40px;
+    right: 60px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20rem;
+    color: rgba(154,150,144,0.07);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .about-photo {
+    position: relative;
+    aspect-ratio: 3/4;
+    background: #bbbfb8;
+    overflow: hidden;
+  }
+
+  .about-photo-inner {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(160deg, #c8ccc4 0%, #a8acaa 50%, #b4b8b2 100%);
+  }
+
+  /* Atmospheric photo placeholder with silhouette-like shapes */
+  .about-photo-inner::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 55%;
+    height: 75%;
+    background: rgba(60,58,55,0.2);
+    clip-path: polygon(50% 0%, 80% 30%, 100% 100%, 0% 100%, 20% 30%);
+    filter: blur(8px);
+  }
+
+  .about-photo-caption {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.8rem;
+    font-style: italic;
+    color: rgba(245,243,239,0.7);
+    letter-spacing: 0.06em;
+  }
+
+  .about-photo-tag {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    width: 72px;
+    height: 72px;
+    background: var(--warm-white);
+    border: 1px solid var(--mist);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem;
+    font-style: italic;
+    color: var(--stone);
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  .about-content h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 300;
+    line-height: 1.2;
+    margin-bottom: 28px;
+    color: var(--ink);
+  }
+
+  .about-content h2 em {
+    font-style: italic;
+    color: var(--blue-grey);
+  }
+
+  .about-content p {
+    font-size: 0.95rem;
+    line-height: 1.9;
+    color: var(--slate);
+    margin-bottom: 20px;
+    max-width: 520px;
+  }
+
+  .about-detail {
+    margin-top: 36px;
+    display: flex;
+    gap: 40px;
+  }
+
+  .about-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .about-stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--ink);
+    line-height: 1;
+  }
+
+  .about-stat-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--stone);
+  }
+
+  /* ——— WRITING / STORIES ——— */
+  .writing {
+    background: var(--warm-white);
+  }
+
+  .writing-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 60px;
+  }
+
+  .writing-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+    font-weight: 300;
+    color: var(--ink);
+    line-height: 1.1;
+  }
+
+  .writing-header h2 em {
+    font-style: italic;
+    color: var(--stone);
+  }
+
+  .view-all {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--stone);
+    text-decoration: none;
+    border-bottom: 1px solid var(--mist);
+    padding-bottom: 3px;
+    transition: color 0.3s, border-color 0.3s;
+    white-space: nowrap;
+    margin-bottom: 8px;
+  }
+
+  .view-all:hover { color: var(--ink); border-color: var(--stone); }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .card {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.4s ease;
+  }
+
+  .card:hover { transform: translateY(-4px); }
+
+  .card-image {
+    aspect-ratio: 4/5;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-img-bg {
+    position: absolute;
+    inset: 0;
+    transition: transform 0.5s ease;
+  }
+
+  .card:hover .card-img-bg { transform: scale(1.04); }
+
+  /* Each card has a different atmospheric bg */
+  .card-1 .card-img-bg {
+    background: linear-gradient(160deg, #b8c4bc 0%, #8a9890 40%, #6e7a72 100%);
+  }
+  .card-2 .card-img-bg {
+    background: linear-gradient(160deg, #c4beb8 0%, #a0978e 40%, #7a706a 100%);
+  }
+  .card-3 .card-img-bg {
+    background: linear-gradient(160deg, #b8bec4 0%, #8e96a0 40%, #6a7278 100%);
+  }
+
+  /* Fog overlay on cards */
+  .card-fog {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 60%;
+    background: linear-gradient(to top, rgba(46,45,43,0.6) 0%, transparent 100%);
+  }
+
+  /* Floating text elements in cards for atmosphere */
+  .card-atmosphere {
+    position: absolute;
+    top: 24px;
+    left: 20px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem;
+    font-style: italic;
+    color: rgba(245,243,239,0.5);
+    letter-spacing: 0.08em;
+  }
+
+  .card-body {
+    padding: 20px 0 0 0;
+  }
+
+  .card-type {
+    font-size: 0.6rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 8px;
+  }
+
+  .card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.3;
+    margin-bottom: 10px;
+  }
+
+  .card-excerpt {
+    font-size: 0.82rem;
+    line-height: 1.75;
+    color: var(--stone);
+    margin-bottom: 14px;
+  }
+
+  .card-link {
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--blue-grey);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: gap 0.3s, color 0.3s;
+  }
+
+  .card-link:hover { gap: 14px; color: var(--ink); }
+
+  .card-link::after {
+    content: '→';
+    font-size: 0.9rem;
+  }
+
+  /* ——— RETREAT BANNER ——— */
+  .retreat {
+    background: var(--ink);
+    color: var(--fog);
+    padding: 80px 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .retreat::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(138,158,142,0.12) 0%, transparent 70%);
+  }
+
+  .retreat-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 20px;
+  }
+
+  .retreat h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 300;
+    line-height: 1.2;
+    color: var(--fog);
+    margin-bottom: 20px;
+  }
+
+  .retreat h2 em {
+    font-style: italic;
+    color: var(--blue-grey);
+  }
+
+  .retreat p {
+    font-size: 0.9rem;
+    line-height: 1.9;
+    color: rgba(232,230,225,0.6);
+  }
+
+  .retreat-right {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .retreat-detail {
+    border-left: 1px solid rgba(154,150,144,0.3);
+    padding-left: 20px;
+  }
+
+  .retreat-detail-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--stone);
+    margin-bottom: 6px;
+  }
+
+  .retreat-detail-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--fog);
+  }
+
+  /* ——— SUBSCRIBE ——— */
+  .subscribe {
+    background: var(--paper);
+    text-align: center;
+    padding: 100px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .subscribe::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--mist), transparent);
+  }
+
+  .subscribe h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 4.5vw, 4rem);
+    font-weight: 300;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 16px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .subscribe h2 em {
+    font-style: italic;
+    color: var(--blue-grey);
+  }
+
+  .subscribe p {
+    font-size: 0.92rem;
+    line-height: 1.8;
+    color: var(--slate);
+    max-width: 420px;
+    margin: 0 auto 44px;
+  }
+
+  .subscribe-form {
+    display: flex;
+    gap: 0;
+    max-width: 420px;
+    margin: 0 auto 20px;
+  }
+
+  .subscribe-input {
+    flex: 1;
+    padding: 14px 20px;
+    border: 1px solid var(--mist);
+    border-right: none;
+    background: var(--warm-white);
+    font-family: 'Jost', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.3s;
+  }
+
+  .subscribe-input::placeholder { color: var(--stone); }
+  .subscribe-input:focus { border-color: var(--stone); }
+
+  .subscribe-btn {
+    padding: 14px 28px;
+    background: var(--ink);
+    color: var(--warm-white);
+    border: 1px solid var(--ink);
+    font-family: 'Jost', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .subscribe-btn:hover { background: var(--slate); border-color: var(--slate); }
+
+  .subscribe-subtext {
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    color: var(--stone);
+  }
+
+  .substack-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--stone);
+    text-decoration: none;
+    border-bottom: 1px solid var(--mist);
+    padding-bottom: 2px;
+    transition: color 0.3s, border-color 0.3s;
+  }
+
+  .substack-link:hover { color: var(--ink); border-color: var(--stone); }
+
+  /* ——— FOOTER ——— */
+  footer {
+    padding: 40px 60px;
+    border-top: 1px solid var(--mist);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--warm-white);
+  }
+
+  .footer-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    font-style: italic;
+    color: var(--stone);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .footer-links a {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--stone);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .footer-links a:hover { color: var(--ink); }
+
+  .footer-copy {
+    font-size: 0.65rem;
+    color: var(--mist);
+    letter-spacing: 0.08em;
+  }
+
+  /* ——— ANIMATIONS ——— */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.22s; }
+  .reveal-delay-3 { transition-delay: 0.34s; }
+
+  /* ——— RESPONSIVE ——— */
+  @media (max-width: 900px) {
+    nav { padding: 20px 30px; }
+    section { padding: 70px 30px; }
+
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-left { padding: 100px 30px 60px; }
+    .hero-right { display: none; }
+
+    .about { grid-template-columns: 1fr; gap: 40px; }
+    .about-photo { max-width: 280px; }
+
+    .cards-grid { grid-template-columns: 1fr; gap: 40px; }
+
+    .writing-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+
+    .retreat { grid-template-columns: 1fr; }
+
+    footer { flex-direction: column; gap: 20px; text-align: center; }
+    .footer-links { justify-content: center; }
+
+    .subscribe { padding: 70px 30px; }
+    .subscribe-form { flex-direction: column; }
+    .subscribe-input { border-right: 1px solid var(--mist); border-bottom: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Anika Ballowry</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#writing">Writing</a></li>
+    <li><a href="#retreat">Retreat</a></li>
+    <li><a href="#subscribe">Subscribe</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" style="padding:0;">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Writer · Adventurer · Storyteller</p>
+    <h1 class="hero-name">
+      Stories that pull<br>you <em>somewhere else.</em>
+    </h1>
+    <p class="hero-tagline">
+      I write at the intersection of adventure, longing, and the kind of worlds you don't want to leave — then I'm building a place where writers can live in them.
+    </p>
+    <div class="hero-cta">
+      <a href="#writing" class="btn-primary">Read My Work</a>
+      <a href="#subscribe" class="btn-ghost">Get the Newsletter</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-image-bg"></div>
+    <div class="fog-layer"></div>
+    <div class="hero-line"></div>
+    <div class="hero-quote">
+      <blockquote>
+        "The morning mist doesn't hide the world — it makes you lean in closer to find it."
+      </blockquote>
+      <cite>Anika Ballowry</cite>
+    </div>
+    <span class="hero-image-text">somewhere in the fog</span>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-photo reveal">
+    <div class="about-photo-inner"></div>
+    <span class="about-photo-caption">somewhere with good light</span>
+    <div class="about-photo-tag">aspiring<br>author</div>
+  </div>
+
+  <div class="about-content">
+    <p class="section-label reveal">About</p>
+    <h2 class="reveal">I write stories <em>you can<br>disappear into.</em></h2>
+    <p class="reveal">I'm Anika — a writer, archer, and aspiring builder of adventure writing retreats. My stories tend to live in the hazy space between the real and the mythic: forests that feel too alive, people who feel too lost, and mornings that feel like they're holding their breath.</p>
+    <p class="reveal">When I'm not writing, I'm usually planning the retreat where writers can do exactly what I do — live inside the story, for a little while. Come into my world, and maybe find your own.</p>
+    <div class="about-detail reveal">
+      <div class="about-stat">
+        <span class="about-stat-num">16</span>
+        <span class="about-stat-label">Posts & Stories</span>
+      </div>
+      <div class="about-stat">
+        <span class="about-stat-num">∞</span>
+        <span class="about-stat-label">Worlds Invented</span>
+      </div>
+      <div class="about-stat">
+        <span class="about-stat-num">1</span>
+        <span class="about-stat-label">Retreat in Progress</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WRITING -->
+<section class="writing" id="writing">
+  <div class="writing-header">
+    <div>
+      <p class="section-label reveal">Writing</p>
+      <h2 class="reveal">Recent <em>work</em></h2>
+    </div>
+    <a href="#" class="view-all reveal">All Writing</a>
+  </div>
+
+  <div class="cards-grid">
+    <!-- Card 1 -->
+    <div class="card card-1 reveal">
+      <div class="card-image">
+        <div class="card-img-bg"></div>
+        <div class="card-fog"></div>
+        <span class="card-atmosphere">chapter one</span>
+      </div>
+      <div class="card-body">
+        <p class="card-type">Short Story</p>
+        <h3 class="card-title">The Fog That Stayed</h3>
+        <p class="card-excerpt">A morning in a valley where the mist never lifted, and the girl who decided not to wait for it to.</p>
+        <a href="#" class="card-link">Read on Substack</a>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="card card-2 reveal reveal-delay-1">
+      <div class="card-image">
+        <div class="card-img-bg"></div>
+        <div class="card-fog"></div>
+        <span class="card-atmosphere">in progress</span>
+      </div>
+      <div class="card-body">
+        <p class="card-type">Essay</p>
+        <h3 class="card-title">On Writing Fantasy Worlds You Actually Live In</h3>
+        <p class="card-excerpt">The worlds I write are places I visit. This is about what happens when you don't come back.</p>
+        <a href="#" class="card-link">Read on Substack</a>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="card card-3 reveal reveal-delay-2">
+      <div class="card-image">
+        <div class="card-img-bg"></div>
+        <div class="card-fog"></div>
+        <span class="card-atmosphere">series</span>
+      </div>
+      <div class="card-body">
+        <p class="card-type">Ongoing Series</p>
+        <h3 class="card-title">Letters from the Retreat I'm Building</h3>
+        <p class="card-excerpt">Dispatches from the process of creating something no one has ever asked for but everyone secretly wants.</p>
+        <a href="#" class="card-link">Read on Substack</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RETREAT BANNER -->
+<section class="retreat" id="retreat" style="padding: 80px 60px;">
+  <div class="retreat-left">
+    <p class="retreat-label">Coming Soon</p>
+    <h2>Not your average <em>writing retreat.</em></h2>
+    <p>I'm building an immersive, all-inclusive adventure where writers can live inside a story instead of just telling one. Archery, forests, candlelight, and all the time in the world to write. Come live in a world for a while.</p>
+  </div>
+  <div class="retreat-right">
+    <div class="retreat-detail">
+      <p class="retreat-detail-label">Format</p>
+      <p class="retreat-detail-value">Immersive, all-inclusive adventure</p>
+    </div>
+    <div class="retreat-detail">
+      <p class="retreat-detail-label">For</p>
+      <p class="retreat-detail-value">Writers who want to live the story</p>
+    </div>
+    <div class="retreat-detail">
+      <p class="retreat-detail-label">Status</p>
+      <p class="retreat-detail-value">In the making — follow along</p>
+    </div>
+    <a href="#subscribe" class="btn-primary" style="align-self: flex-start; margin-top: 8px;">Stay in the Loop</a>
+  </div>
+</section>
+
+<!-- SUBSCRIBE -->
+<section class="subscribe" id="subscribe">
+  <h2 class="reveal">Letters from <em>the fog.</em></h2>
+  <p class="reveal">Stories, updates on the retreat, and dispatches from the worlds I'm building. No noise — just writing worth lingering over.</p>
+
+  <div class="subscribe-form reveal">
+    <input type="email" class="subscribe-input" placeholder="your@email.com">
+    <button class="subscribe-btn">Subscribe</button>
+  </div>
+
+  <p class="subscribe-subtext reveal">No spam. Unsubscribe any time.</p>
+
+  <a href="https://substack.com" target="_blank" class="substack-link reveal">
+    Or read the archive on Substack →
+  </a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-name">Anika Ballowry</span>
+  <ul class="footer-links">
+    <li><a href="#">Writing</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="https://www.instagram.com/anika_ballowry/" target="_blank">Instagram</a></li>
+    <li><a href="#">Substack</a></li>
+  </ul>
+  <span class="footer-copy">© 2026</span>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  reveals.forEach(el => observer.observe(el));
+
+  // Subscribe button feedback
+  const btn = document.querySelector('.subscribe-btn');
+  const input = document.querySelector('.subscribe-input');
+  btn.addEventListener('click', () => {
+    if (input.value.includes('@')) {
+      btn.textContent = 'Thank you ✓';
+      btn.style.background = '#8a9e8e';
+      btn.style.borderColor = '#8a9e8e';
+      setTimeout(() => {
+        btn.textContent = 'Subscribe';
+        btn.style.background = '';
+        btn.style.borderColor = '';
+        input.value = '';
+      }, 3000);
+    } else {
+      input.style.borderColor = '#a08888';
+      setTimeout(() => input.style.borderColor = '', 1500);
+    }
+  });
+</script>
+
+</body>
+</html>
