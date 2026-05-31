@@ -4,1064 +4,1165 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Anika Ballowry — Writer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --fog: #e8e6e1;
-    --mist: #d4d0c8;
-    --stone: #9a9690;
-    --slate: #6b6b72;
-    --ink: #2e2d2b;
-    --sage: #8a9e8e;
-    --blue-grey: #8896a4;
-    --warm-white: #f5f3ef;
-    --paper: #ede9e2;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background-color: var(--warm-white);
-    color: var(--ink);
-    font-family: 'Jost', sans-serif;
-    font-weight: 300;
-    overflow-x: hidden;
-    position: relative;
-  }
-
-  /* Noise texture overlay */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-    opacity: 0.035;
-    pointer-events: none;
-    z-index: 999;
-  }
-
-  /* ——— NAV ——— */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    padding: 28px 60px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: linear-gradient(to bottom, rgba(245,243,239,0.95) 0%, rgba(245,243,239,0) 100%);
-  }
-
-  .nav-logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.1rem;
-    font-weight: 400;
-    letter-spacing: 0.12em;
-    color: var(--ink);
-    text-decoration: none;
-    font-style: italic;
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 40px;
-    list-style: none;
-  }
-
-  .nav-links a {
-    font-size: 0.75rem;
-    font-weight: 400;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--slate);
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-
-  .nav-links a:hover { color: var(--ink); }
-
-  /* ——— HERO ——— */
-  .hero {
-    min-height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-left {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 120px 60px 80px 60px;
-    position: relative;
-    z-index: 2;
-  }
-
-  .hero-eyebrow {
-    font-size: 0.7rem;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--sage);
-    margin-bottom: 32px;
-    opacity: 0;
-    animation: fadeUp 0.8s ease 0.2s forwards;
-  }
-
-  .hero-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(3.5rem, 6vw, 5.5rem);
-    font-weight: 300;
-    line-height: 1.05;
-    letter-spacing: -0.01em;
-    color: var(--ink);
-    margin-bottom: 28px;
-    opacity: 0;
-    animation: fadeUp 0.9s ease 0.35s forwards;
-  }
-
-  .hero-name em {
-    font-style: italic;
-    color: var(--blue-grey);
-  }
-
-  .hero-tagline {
-    font-size: 1rem;
-    font-weight: 300;
-    line-height: 1.8;
-    color: var(--slate);
-    max-width: 380px;
-    margin-bottom: 52px;
-    opacity: 0;
-    animation: fadeUp 0.9s ease 0.5s forwards;
-  }
-
-  .hero-cta {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    opacity: 0;
-    animation: fadeUp 0.9s ease 0.65s forwards;
-  }
-
-  .btn-primary {
-    display: inline-block;
-    padding: 14px 34px;
-    background: var(--ink);
-    color: var(--warm-white);
-    font-family: 'Jost', sans-serif;
-    font-size: 0.72rem;
-    font-weight: 400;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: background 0.3s ease, transform 0.2s ease;
-  }
-
-  .btn-primary:hover {
-    background: var(--slate);
-    transform: translateY(-1px);
-  }
-
-  .btn-ghost {
-    font-size: 0.72rem;
-    font-weight: 400;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--stone);
-    text-decoration: none;
-    border-bottom: 1px solid var(--mist);
-    padding-bottom: 2px;
-    transition: color 0.3s, border-color 0.3s;
-  }
-
-  .btn-ghost:hover {
-    color: var(--ink);
-    border-color: var(--stone);
-  }
-
-  /* Hero right — atmospheric image panel */
-  .hero-right {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-image-bg {
-    position: absolute;
-    inset: 0;
-    background:
-      linear-gradient(135deg, rgba(232,230,225,0.6) 0%, transparent 50%),
-      linear-gradient(to bottom, rgba(245,243,239,0.1) 0%, rgba(107,107,114,0.15) 100%);
-    background-color: #c8ccc8;
-  }
-
-  /* Layered fog shapes */
-  .fog-layer {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-  }
-
-  .fog-layer::before {
-    content: '';
-    position: absolute;
-    width: 120%;
-    height: 60%;
-    bottom: 0; left: -10%;
-    background: radial-gradient(ellipse at 50% 100%, rgba(212,208,200,0.7) 0%, transparent 70%);
-    filter: blur(40px);
-  }
-
-  .fog-layer::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 40%;
-    top: 20%; left: 0;
-    background: radial-gradient(ellipse at 30% 50%, rgba(232,230,225,0.5) 0%, transparent 60%);
-    filter: blur(30px);
-  }
-
-  .hero-image-text {
-    position: absolute;
-    bottom: 48px;
-    right: 40px;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.85rem;
-    font-style: italic;
-    color: rgba(46,45,43,0.45);
-    letter-spacing: 0.05em;
-  }
-
-  /* Decorative vertical line */
-  .hero-line {
-    position: absolute;
-    left: 0;
-    top: 15%;
-    bottom: 15%;
-    width: 1px;
-    background: linear-gradient(to bottom, transparent, var(--mist), transparent);
-  }
-
-  /* Floating quote in hero right */
-  .hero-quote {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    width: 70%;
-    opacity: 0;
-    animation: fadeIn 1.2s ease 1s forwards;
-  }
-
-  .hero-quote blockquote {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.5rem;
-    font-style: italic;
-    font-weight: 300;
-    color: rgba(46,45,43,0.7);
-    line-height: 1.6;
-    letter-spacing: 0.02em;
-  }
-
-  .hero-quote cite {
-    display: block;
-    margin-top: 16px;
-    font-family: 'Jost', sans-serif;
-    font-size: 0.65rem;
-    font-style: normal;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--sage);
-  }
-
-  /* ——— SECTION SHARED ——— */
-  section {
-    padding: 100px 60px;
-  }
-
-  .section-label {
-    font-size: 0.65rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--sage);
-    margin-bottom: 16px;
-  }
-
-  /* ——— ABOUT ——— */
-  .about {
-    background: var(--paper);
-    display: grid;
-    grid-template-columns: 1fr 1.6fr;
-    gap: 80px;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .about::before {
-    content: '"';
-    position: absolute;
-    top: -40px;
-    right: 60px;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 20rem;
-    color: rgba(154,150,144,0.07);
-    line-height: 1;
-    pointer-events: none;
-    user-select: none;
-  }
-
-  .about-photo {
-    position: relative;
-    aspect-ratio: 3/4;
-    background: #bbbfb8;
-    overflow: hidden;
-  }
-
-  .about-photo-inner {
-    position: absolute;
-    inset: 0;
-    background:
-      linear-gradient(160deg, #c8ccc4 0%, #a8acaa 50%, #b4b8b2 100%);
-  }
-
-  /* Atmospheric photo placeholder with silhouette-like shapes */
-  .about-photo-inner::before {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 50%;
-    transform: translateX(-50%);
-    width: 55%;
-    height: 75%;
-    background: rgba(60,58,55,0.2);
-    clip-path: polygon(50% 0%, 80% 30%, 100% 100%, 0% 100%, 20% 30%);
-    filter: blur(8px);
-  }
-
-  .about-photo-caption {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.8rem;
-    font-style: italic;
-    color: rgba(245,243,239,0.7);
-    letter-spacing: 0.06em;
-  }
-
-  .about-photo-tag {
-    position: absolute;
-    top: -12px;
-    right: -12px;
-    width: 72px;
-    height: 72px;
-    background: var(--warm-white);
-    border: 1px solid var(--mist);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.7rem;
-    font-style: italic;
-    color: var(--stone);
-    text-align: center;
-    line-height: 1.4;
-  }
-
-  .about-content h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2rem, 3.5vw, 3rem);
-    font-weight: 300;
-    line-height: 1.2;
-    margin-bottom: 28px;
-    color: var(--ink);
-  }
-
-  .about-content h2 em {
-    font-style: italic;
-    color: var(--blue-grey);
-  }
-
-  .about-content p {
-    font-size: 0.95rem;
-    line-height: 1.9;
-    color: var(--slate);
-    margin-bottom: 20px;
-    max-width: 520px;
-  }
-
-  .about-detail {
-    margin-top: 36px;
-    display: flex;
-    gap: 40px;
-  }
-
-  .about-stat {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .about-stat-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2rem;
-    font-weight: 300;
-    color: var(--ink);
-    line-height: 1;
-  }
-
-  .about-stat-label {
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--stone);
-  }
-
-  /* ——— WRITING / STORIES ——— */
-  .writing {
-    background: var(--warm-white);
-  }
-
-  .writing-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 60px;
-  }
-
-  .writing-header h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.2rem, 4vw, 3.4rem);
-    font-weight: 300;
-    color: var(--ink);
-    line-height: 1.1;
-  }
-
-  .writing-header h2 em {
-    font-style: italic;
-    color: var(--stone);
-  }
-
-  .view-all {
-    font-size: 0.7rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--stone);
-    text-decoration: none;
-    border-bottom: 1px solid var(--mist);
-    padding-bottom: 3px;
-    transition: color 0.3s, border-color 0.3s;
-    white-space: nowrap;
-    margin-bottom: 8px;
-  }
-
-  .view-all:hover { color: var(--ink); border-color: var(--stone); }
-
-  .cards-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-  }
-
-  .card {
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.4s ease;
-  }
-
-  .card:hover { transform: translateY(-4px); }
-
-  .card-image {
-    aspect-ratio: 4/5;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .card-img-bg {
-    position: absolute;
-    inset: 0;
-    transition: transform 0.5s ease;
-  }
-
-  .card:hover .card-img-bg { transform: scale(1.04); }
-
-  /* Each card has a different atmospheric bg */
-  .card-1 .card-img-bg {
-    background: linear-gradient(160deg, #b8c4bc 0%, #8a9890 40%, #6e7a72 100%);
-  }
-  .card-2 .card-img-bg {
-    background: linear-gradient(160deg, #c4beb8 0%, #a0978e 40%, #7a706a 100%);
-  }
-  .card-3 .card-img-bg {
-    background: linear-gradient(160deg, #b8bec4 0%, #8e96a0 40%, #6a7278 100%);
-  }
-
-  /* Fog overlay on cards */
-  .card-fog {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 60%;
-    background: linear-gradient(to top, rgba(46,45,43,0.6) 0%, transparent 100%);
-  }
-
-  /* Floating text elements in cards for atmosphere */
-  .card-atmosphere {
-    position: absolute;
-    top: 24px;
-    left: 20px;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.75rem;
-    font-style: italic;
-    color: rgba(245,243,239,0.5);
-    letter-spacing: 0.08em;
-  }
-
-  .card-body {
-    padding: 20px 0 0 0;
-  }
-
-  .card-type {
-    font-size: 0.6rem;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--sage);
-    margin-bottom: 8px;
-  }
-
-  .card-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.3rem;
-    font-weight: 400;
-    color: var(--ink);
-    line-height: 1.3;
-    margin-bottom: 10px;
-  }
-
-  .card-excerpt {
-    font-size: 0.82rem;
-    line-height: 1.75;
-    color: var(--stone);
-    margin-bottom: 14px;
-  }
-
-  .card-link {
-    font-size: 0.68rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--blue-grey);
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    transition: gap 0.3s, color 0.3s;
-  }
-
-  .card-link:hover { gap: 14px; color: var(--ink); }
-
-  .card-link::after {
-    content: '→';
-    font-size: 0.9rem;
-  }
-
-  /* ——— RETREAT BANNER ——— */
-  .retreat {
-    background: var(--ink);
-    color: var(--fog);
-    padding: 80px 60px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .retreat::before {
-    content: '';
-    position: absolute;
-    top: -80px; right: -80px;
-    width: 400px;
-    height: 400px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(138,158,142,0.12) 0%, transparent 70%);
-  }
-
-  .retreat-label {
-    font-size: 0.65rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--sage);
-    margin-bottom: 20px;
-  }
-
-  .retreat h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2rem, 3.5vw, 3rem);
-    font-weight: 300;
-    line-height: 1.2;
-    color: var(--fog);
-    margin-bottom: 20px;
-  }
-
-  .retreat h2 em {
-    font-style: italic;
-    color: var(--blue-grey);
-  }
-
-  .retreat p {
-    font-size: 0.9rem;
-    line-height: 1.9;
-    color: rgba(232,230,225,0.6);
-  }
-
-  .retreat-right {
-    display: flex;
-    flex-direction: column;
-    gap: 28px;
-  }
-
-  .retreat-detail {
-    border-left: 1px solid rgba(154,150,144,0.3);
-    padding-left: 20px;
-  }
-
-  .retreat-detail-label {
-    font-size: 0.6rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--stone);
-    margin-bottom: 6px;
-  }
-
-  .retreat-detail-value {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.1rem;
-    font-style: italic;
-    color: var(--fog);
-  }
-
-  /* ——— SUBSCRIBE ——— */
-  .subscribe {
-    background: var(--paper);
-    text-align: center;
-    padding: 100px 60px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .subscribe::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(to right, transparent, var(--mist), transparent);
-  }
-
-  .subscribe h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.5rem, 4.5vw, 4rem);
-    font-weight: 300;
-    line-height: 1.2;
-    color: var(--ink);
-    margin-bottom: 16px;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .subscribe h2 em {
-    font-style: italic;
-    color: var(--blue-grey);
-  }
-
-  .subscribe p {
-    font-size: 0.92rem;
-    line-height: 1.8;
-    color: var(--slate);
-    max-width: 420px;
-    margin: 0 auto 44px;
-  }
-
-  .subscribe-form {
-    display: flex;
-    gap: 0;
-    max-width: 420px;
-    margin: 0 auto 20px;
-  }
-
-  .subscribe-input {
-    flex: 1;
-    padding: 14px 20px;
-    border: 1px solid var(--mist);
-    border-right: none;
-    background: var(--warm-white);
-    font-family: 'Jost', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 300;
-    color: var(--ink);
-    outline: none;
-    transition: border-color 0.3s;
-  }
-
-  .subscribe-input::placeholder { color: var(--stone); }
-  .subscribe-input:focus { border-color: var(--stone); }
-
-  .subscribe-btn {
-    padding: 14px 28px;
-    background: var(--ink);
-    color: var(--warm-white);
-    border: 1px solid var(--ink);
-    font-family: 'Jost', sans-serif;
-    font-size: 0.7rem;
-    font-weight: 400;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-
-  .subscribe-btn:hover { background: var(--slate); border-color: var(--slate); }
-
-  .subscribe-subtext {
-    font-size: 0.7rem;
-    letter-spacing: 0.08em;
-    color: var(--stone);
-  }
-
-  .substack-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 20px;
-    font-size: 0.72rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--stone);
-    text-decoration: none;
-    border-bottom: 1px solid var(--mist);
-    padding-bottom: 2px;
-    transition: color 0.3s, border-color 0.3s;
-  }
-
-  .substack-link:hover { color: var(--ink); border-color: var(--stone); }
-
-  /* ——— FOOTER ——— */
-  footer {
-    padding: 40px 60px;
-    border-top: 1px solid var(--mist);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: var(--warm-white);
-  }
-
-  .footer-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.9rem;
-    font-style: italic;
-    color: var(--stone);
-  }
-
-  .footer-links {
-    display: flex;
-    gap: 32px;
-    list-style: none;
-  }
-
-  .footer-links a {
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--stone);
-    text-decoration: none;
-    transition: color 0.3s;
-  }
-
-  .footer-links a:hover { color: var(--ink); }
-
-  .footer-copy {
-    font-size: 0.65rem;
-    color: var(--mist);
-    letter-spacing: 0.08em;
-  }
-
-  /* ——— ANIMATIONS ——— */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-  }
-
-  /* Scroll reveal */
-  .reveal {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-  }
-
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .reveal-delay-1 { transition-delay: 0.1s; }
-  .reveal-delay-2 { transition-delay: 0.22s; }
-  .reveal-delay-3 { transition-delay: 0.34s; }
-
-  /* ——— RESPONSIVE ——— */
-  @media (max-width: 900px) {
-    nav { padding: 20px 30px; }
-    section { padding: 70px 30px; }
-
-    .hero { grid-template-columns: 1fr; min-height: auto; }
-    .hero-left { padding: 100px 30px 60px; }
-    .hero-right { display: none; }
-
-    .about { grid-template-columns: 1fr; gap: 40px; }
-    .about-photo { max-width: 280px; }
-
-    .cards-grid { grid-template-columns: 1fr; gap: 40px; }
-
-    .writing-header { flex-direction: column; align-items: flex-start; gap: 16px; }
-
-    .retreat { grid-template-columns: 1fr; }
-
-    footer { flex-direction: column; gap: 20px; text-align: center; }
-    .footer-links { justify-content: center; }
-
-    .subscribe { padding: 70px 30px; }
-    .subscribe-form { flex-direction: column; }
-    .subscribe-input { border-right: 1px solid var(--mist); border-bottom: none; }
-  }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+:root{
+  --fog:#e8e6e1;--mist:#d4d0c8;--stone:#9a9690;--slate:#6b6b72;
+  --ink:#2e2d2b;--sage:#8a9e8e;--blue-grey:#8896a4;
+  --warm-white:#f5f3ef;--paper:#ede9e2;
+}
+body{font-family:'Jost',sans-serif;font-weight:300;overflow-x:hidden;background:var(--warm-white);color:var(--ink)}
+
+/* ——— DEMO SWITCHER NAV ——— */
+.demo-nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 48px;
+  background:rgba(245,243,239,0.92);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid rgba(212,208,200,0.4);
+}
+.demo-logo{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:1.05rem;color:var(--ink);text-decoration:none;
+}
+.demo-tabs{display:flex;gap:6px}
+.demo-tab{
+  padding:7px 18px;
+  font-size:0.68rem;font-weight:400;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--stone);background:transparent;border:1px solid transparent;
+  cursor:pointer;transition:all 0.25s ease;font-family:'Jost',sans-serif;
+}
+.demo-tab:hover{color:var(--ink);border-color:var(--mist)}
+.demo-tab.active{color:var(--ink);border-color:var(--stone);background:rgba(154,150,144,0.08)}
+
+/* ——— DEMO PAGES ——— */
+.demo-page{display:none;min-height:100vh}
+.demo-page.active{display:block}
+
+/* ================================================
+   DEMO 1 — PARALLAX HERO + FULL SITE
+   ================================================ */
+#demo1{background:var(--warm-white)}
+
+.parallax-wrap{position:relative;overflow:hidden}
+.parallax-scene{
+  position:relative;width:100%;height:100vh;overflow:hidden;
+}
+
+/* Sky layer */
+.p-sky{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,#b8c4d0 0%,#cdd4d8 35%,#dddbd4 60%,#e8e4dc 80%,#ede9e2 100%);
+  transform:translateZ(0);will-change:transform;
+}
+
+/* SVG fog/cloud layers sit here */
+.p-clouds-far,.p-clouds-near,.p-mist-ground{
+  position:absolute;width:100%;pointer-events:none;will-change:transform;
+}
+.p-clouds-far{top:0;left:0;height:100%}
+.p-clouds-near{top:0;left:0;height:100%}
+.p-mist-ground{bottom:0;left:0}
+
+/* Foreground silhouette */
+.p-trees{
+  position:absolute;bottom:0;left:0;right:0;
+  pointer-events:none;will-change:transform;
+}
+
+/* Hero content floats above parallax */
+.p-content{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  justify-content:center;align-items:flex-start;
+  padding:0 10% 80px;z-index:10;
+}
+.p-eyebrow{
+  font-size:0.65rem;letter-spacing:0.32em;text-transform:uppercase;
+  color:var(--sage);margin-bottom:24px;opacity:0;
+  animation:fadeUp 0.8s ease 0.3s forwards;
+}
+.p-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(3.2rem,7vw,6rem);font-weight:300;
+  line-height:1.05;color:var(--ink);margin-bottom:20px;
+  opacity:0;animation:fadeUp 0.9s ease 0.45s forwards;
+}
+.p-title em{font-style:italic;color:var(--blue-grey)}
+.p-subtitle{
+  font-size:1rem;line-height:1.9;color:var(--slate);
+  max-width:420px;margin-bottom:44px;
+  opacity:0;animation:fadeUp 0.9s ease 0.6s forwards;
+}
+.p-cta{
+  display:flex;gap:18px;align-items:center;
+  opacity:0;animation:fadeUp 0.9s ease 0.75s forwards;
+}
+.btn-dark{
+  padding:13px 32px;background:var(--ink);color:var(--warm-white);
+  font-family:'Jost',sans-serif;font-size:0.7rem;font-weight:400;
+  letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;
+  transition:background 0.3s,transform 0.2s;display:inline-block;
+}
+.btn-dark:hover{background:var(--slate);transform:translateY(-1px)}
+.btn-line{
+  font-size:0.7rem;letter-spacing:0.16em;text-transform:uppercase;
+  color:var(--stone);text-decoration:none;
+  border-bottom:1px solid var(--mist);padding-bottom:2px;
+  transition:color 0.3s,border-color 0.3s;
+}
+.btn-line:hover{color:var(--ink);border-color:var(--stone)}
+
+/* Scroll indicator */
+.scroll-hint{
+  position:absolute;bottom:36px;left:50%;transform:translateX(-50%);
+  z-index:20;display:flex;flex-direction:column;align-items:center;gap:8px;
+  opacity:0;animation:fadeIn 1s ease 1.2s forwards;
+}
+.scroll-hint span{
+  font-size:0.6rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--stone);
+}
+.scroll-line{
+  width:1px;height:40px;background:linear-gradient(to bottom,var(--stone),transparent);
+  animation:scrollPulse 2s ease infinite;
+}
+
+/* ——— ABOUT ——— */
+.d1-about{
+  padding:100px 10%;background:var(--paper);
+  display:grid;grid-template-columns:1fr 1.5fr;gap:80px;align-items:center;
+  position:relative;overflow:hidden;
+}
+.d1-about::before{
+  content:'"';position:absolute;top:-60px;right:8%;
+  font-family:'Cormorant Garamond',serif;font-size:22rem;
+  color:rgba(154,150,144,0.06);line-height:1;pointer-events:none;
+}
+.d1-photo{
+  position:relative;aspect-ratio:3/4;overflow:hidden;
+  background:linear-gradient(160deg,#c4c8c0 0%,#9ea8a4 50%,#7a8480 100%);
+}
+.d1-photo-tag{
+  position:absolute;top:-14px;right:-14px;
+  width:76px;height:76px;background:var(--warm-white);
+  border:1px solid var(--mist);display:flex;align-items:center;justify-content:center;
+  font-family:'Cormorant Garamond',serif;font-size:0.68rem;font-style:italic;
+  color:var(--stone);text-align:center;line-height:1.4;
+}
+.section-label{font-size:0.62rem;letter-spacing:0.32em;text-transform:uppercase;color:var(--sage);margin-bottom:14px}
+.d1-about h2{
+  font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3.5vw,3rem);
+  font-weight:300;line-height:1.2;color:var(--ink);margin-bottom:24px;
+}
+.d1-about h2 em{font-style:italic;color:var(--blue-grey)}
+.d1-about p{font-size:0.92rem;line-height:1.9;color:var(--slate);margin-bottom:16px;max-width:480px}
+.stats{display:flex;gap:40px;margin-top:36px}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:300;color:var(--ink);line-height:1}
+.stat-label{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--stone);margin-top:4px}
+
+/* ——— CARDS ——— */
+.d1-writing{padding:100px 10%;background:var(--warm-white)}
+.writing-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px}
+.writing-header h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,4vw,3.2rem);font-weight:300;color:var(--ink)}
+.writing-header h2 em{font-style:italic;color:var(--stone)}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.card{cursor:pointer;transition:transform 0.4s}
+.card:hover{transform:translateY(-5px)}
+.card-img{aspect-ratio:4/5;position:relative;overflow:hidden}
+.card-img-inner{position:absolute;inset:0;transition:transform 0.5s}
+.card:hover .card-img-inner{transform:scale(1.04)}
+.card-fog-overlay{position:absolute;bottom:0;left:0;right:0;height:55%;background:linear-gradient(to top,rgba(46,45,43,0.55) 0%,transparent 100%)}
+.card-atm{position:absolute;top:20px;left:18px;font-family:'Cormorant Garamond',serif;font-size:0.72rem;font-style:italic;color:rgba(245,243,239,0.5);letter-spacing:0.08em}
+.card-type{font-size:0.58rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--sage);margin:16px 0 6px}
+.card-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;color:var(--ink);line-height:1.3;margin-bottom:8px}
+.card-excerpt{font-size:0.8rem;line-height:1.75;color:var(--stone);margin-bottom:12px}
+.card-link{font-size:0.65rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--blue-grey);text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:gap 0.3s,color 0.3s}
+.card-link:hover{gap:14px;color:var(--ink)}
+.card-link::after{content:'→';font-size:0.9rem}
+.c1b{background:linear-gradient(160deg,#b8c4bc 0%,#8a9890 40%,#6e7a72 100%)}
+.c2b{background:linear-gradient(160deg,#c4beb8 0%,#a0978e 40%,#7a706a 100%)}
+.c3b{background:linear-gradient(160deg,#b8bec4 0%,#8e96a0 40%,#6a7278 100%)}
+
+/* ——— SUBSCRIBE ——— */
+.d1-subscribe{
+  background:var(--paper);text-align:center;padding:100px 10%;
+  position:relative;overflow:hidden;
+}
+.d1-subscribe::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,var(--mist),transparent)}
+.d1-subscribe h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2.4rem,4.5vw,4rem);font-weight:300;color:var(--ink);margin-bottom:14px;max-width:580px;margin-left:auto;margin-right:auto}
+.d1-subscribe h2 em{font-style:italic;color:var(--blue-grey)}
+.d1-subscribe p{font-size:0.9rem;line-height:1.8;color:var(--slate);max-width:400px;margin:0 auto 42px}
+.sub-form{display:flex;max-width:400px;margin:0 auto 16px}
+.sub-input{flex:1;padding:13px 18px;border:1px solid var(--mist);border-right:none;background:var(--warm-white);font-family:'Jost',sans-serif;font-size:0.82rem;font-weight:300;color:var(--ink);outline:none;transition:border-color 0.3s}
+.sub-input::placeholder{color:var(--stone)}
+.sub-input:focus{border-color:var(--stone)}
+.sub-btn{padding:13px 26px;background:var(--ink);color:var(--warm-white);border:1px solid var(--ink);font-family:'Jost',sans-serif;font-size:0.68rem;font-weight:400;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;transition:background 0.3s}
+.sub-btn:hover{background:var(--slate);border-color:var(--slate)}
+.sub-note{font-size:0.68rem;letter-spacing:0.08em;color:var(--stone)}
+
+/* ——— D1 FOOTER ——— */
+.d1-footer{padding:36px 10%;border-top:1px solid var(--mist);display:flex;justify-content:space-between;align-items:center;background:var(--warm-white)}
+.footer-name{font-family:'Cormorant Garamond',serif;font-size:0.9rem;font-style:italic;color:var(--stone)}
+.footer-links{display:flex;gap:28px;list-style:none}
+.footer-links a{font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--stone);text-decoration:none;transition:color 0.3s}
+.footer-links a:hover{color:var(--ink)}
+
+/* ================================================
+   DEMO 2 — DARK ACADEMIA SCROLL
+   ================================================ */
+#demo2{background:#1a1714;color:#e8e4da}
+.da-parallax{position:relative;height:100vh;overflow:hidden}
+.da-bg{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,#0d0c0a 0%,#1a1714 30%,#252118 60%,#1e1c17 100%);
+  will-change:transform;
+}
+.da-content{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  justify-content:center;align-items:center;text-align:center;
+  z-index:10;padding:0 10%;
+}
+.da-eyebrow{font-size:0.62rem;letter-spacing:0.34em;text-transform:uppercase;color:#8a9e8e;margin-bottom:28px;opacity:0;animation:fadeUp 0.8s ease 0.3s forwards}
+.da-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(3rem,7vw,6.5rem);font-weight:300;line-height:1.05;
+  color:#e8e4da;margin-bottom:24px;
+  opacity:0;animation:fadeUp 0.9s ease 0.45s forwards;
+}
+.da-title em{font-style:italic;color:#8896a4}
+.da-rule{
+  width:80px;height:1px;background:linear-gradient(to right,transparent,#6b6b72,transparent);
+  margin:0 auto 24px;opacity:0;animation:fadeIn 1s ease 0.7s forwards;
+}
+.da-subtitle{font-size:0.95rem;line-height:1.9;color:#9a9690;max-width:440px;margin:0 auto 48px;opacity:0;animation:fadeUp 0.9s ease 0.6s forwards}
+.da-cta{opacity:0;animation:fadeUp 0.9s ease 0.75s forwards;display:flex;gap:18px;justify-content:center}
+.btn-ghost-dark{
+  padding:13px 32px;border:1px solid rgba(154,150,144,0.4);color:#e8e4da;
+  font-family:'Jost',sans-serif;font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;
+  text-decoration:none;transition:all 0.3s;display:inline-block;background:transparent;
+}
+.btn-ghost-dark:hover{border-color:#9a9690;background:rgba(154,150,144,0.08)}
+
+/* DA body sections */
+.da-section{padding:90px 10%;background:#1a1714;position:relative}
+.da-section + .da-section{border-top:1px solid rgba(154,150,144,0.12)}
+.da-label{font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:#8a9e8e;margin-bottom:14px}
+.da-h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3.5vw,3rem);font-weight:300;color:#e8e4da;line-height:1.2;margin-bottom:24px}
+.da-h2 em{font-style:italic;color:#8896a4}
+.da-p{font-size:0.9rem;line-height:1.9;color:#9a9690;margin-bottom:16px;max-width:520px}
+
+.da-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.da-grid-reverse{grid-template-columns:1fr 1fr}
+.da-img-box{
+  aspect-ratio:4/3;
+  background:linear-gradient(160deg,#2a2620 0%,#1e1c17 50%,#141210 100%);
+  position:relative;overflow:hidden;
+}
+.da-img-decor{
+  position:absolute;bottom:20px;right:20px;
+  font-family:'Cormorant Garamond',serif;font-size:0.75rem;font-style:italic;
+  color:rgba(232,228,218,0.25);letter-spacing:0.06em;
+}
+.da-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:50px}
+.da-card{
+  padding:28px 24px;border:1px solid rgba(154,150,144,0.14);
+  background:rgba(255,255,255,0.025);transition:border-color 0.3s,background 0.3s;
+}
+.da-card:hover{border-color:rgba(154,150,144,0.3);background:rgba(255,255,255,0.04)}
+.da-card-num{font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:300;color:rgba(136,150,164,0.35);line-height:1;margin-bottom:12px}
+.da-card-title{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-style:italic;color:#e8e4da;margin-bottom:8px}
+.da-card-text{font-size:0.8rem;line-height:1.75;color:#9a9690}
+.da-sub{text-align:center;padding:80px 10%;background:#141210}
+.da-sub h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,4vw,3.5rem);font-weight:300;color:#e8e4da;margin-bottom:14px}
+.da-sub h2 em{font-style:italic;color:#8896a4}
+.da-sub p{font-size:0.88rem;line-height:1.8;color:#9a9690;max-width:400px;margin:0 auto 40px}
+.da-sub-form{display:flex;max-width:400px;margin:0 auto}
+.da-input{flex:1;padding:13px 18px;border:1px solid rgba(154,150,144,0.25);border-right:none;background:rgba(255,255,255,0.04);font-family:'Jost',sans-serif;font-size:0.82rem;font-weight:300;color:#e8e4da;outline:none;transition:border-color 0.3s}
+.da-input::placeholder{color:rgba(154,150,144,0.5)}
+.da-input:focus{border-color:rgba(154,150,144,0.5)}
+.da-sub-btn{padding:13px 24px;background:rgba(232,228,218,0.08);color:#e8e4da;border:1px solid rgba(154,150,144,0.25);font-family:'Jost',sans-serif;font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;transition:all 0.3s}
+.da-sub-btn:hover{background:rgba(232,228,218,0.14)}
+.da-footer{padding:36px 10%;border-top:1px solid rgba(154,150,144,0.15);display:flex;justify-content:space-between;align-items:center;background:#1a1714}
+.da-footer-name{font-family:'Cormorant Garamond',serif;font-size:0.9rem;font-style:italic;color:rgba(154,150,144,0.6)}
+.da-footer-links{display:flex;gap:28px;list-style:none}
+.da-footer-links a{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(154,150,144,0.5);text-decoration:none;transition:color 0.3s}
+.da-footer-links a:hover{color:#e8e4da}
+
+/* ================================================
+   DEMO 3 — MISTY EDITORIAL
+   ================================================ */
+#demo3{background:#f0ede8}
+.me-hero{
+  position:relative;height:100vh;overflow:hidden;
+  background:linear-gradient(180deg,#c8cdd4 0%,#d8d4cc 40%,#e4e0d8 70%,#ede9e2 100%);
+}
+.me-content{
+  position:absolute;inset:0;z-index:10;
+  display:grid;grid-template-columns:1fr 1fr;
+  align-items:center;padding:0 8%;
+}
+.me-left{padding-right:5%}
+.me-label{font-size:0.6rem;letter-spacing:0.32em;text-transform:uppercase;color:#8a9e8e;margin-bottom:22px;opacity:0;animation:fadeUp 0.8s ease 0.3s forwards}
+.me-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,5.5vw,5rem);font-weight:300;line-height:1.08;color:#2e2d2b;margin-bottom:24px;opacity:0;animation:fadeUp 0.9s ease 0.45s forwards}
+.me-h1 em{font-style:italic;color:#8896a4}
+.me-p{font-size:0.92rem;line-height:1.9;color:#6b6b72;max-width:380px;margin-bottom:44px;opacity:0;animation:fadeUp 0.9s ease 0.6s forwards}
+.me-actions{display:flex;gap:16px;opacity:0;animation:fadeUp 0.9s ease 0.72s forwards}
+.me-right{position:relative;height:100%;display:flex;align-items:center;justify-content:center}
+.me-quote-card{
+  background:rgba(245,243,239,0.85);border:1px solid rgba(212,208,200,0.5);
+  padding:36px 32px;max-width:340px;position:relative;
+  opacity:0;animation:fadeIn 1s ease 1s forwards;
+}
+.me-quote-card blockquote{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-style:italic;font-weight:300;color:#2e2d2b;line-height:1.6}
+.me-quote-card cite{display:block;margin-top:16px;font-family:'Jost',sans-serif;font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;color:#8a9e8e;font-style:normal}
+.me-quote-tag{
+  position:absolute;bottom:-1px;right:-1px;
+  padding:6px 14px;background:#2e2d2b;
+  font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:#e8e4da;
+}
+
+/* ME sections */
+.me-strip{
+  background:#2e2d2b;color:#e8e4da;
+  padding:32px 8%;display:flex;align-items:center;gap:60px;overflow:hidden;
+  position:relative;
+}
+.me-strip::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:#8a9e8e}
+.strip-item{
+  font-family:'Cormorant Garamond',serif;font-size:0.88rem;font-style:italic;
+  color:rgba(232,228,218,0.6);white-space:nowrap;flex-shrink:0;
+}
+.strip-dot{width:4px;height:4px;background:rgba(138,158,142,0.4);border-radius:50%;flex-shrink:0}
+
+.me-writing{padding:90px 8%;background:#f0ede8}
+.me-writing-header{margin-bottom:56px}
+.me-writing-header h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3.8vw,3.2rem);font-weight:300;color:#2e2d2b;line-height:1.1}
+.me-writing-header h2 em{font-style:italic;color:#9a9690}
+.me-posts{display:grid;grid-template-columns:2fr 1fr 1fr;gap:24px;align-items:start}
+.me-post-big{
+  background:#e8e4da;position:relative;overflow:hidden;cursor:pointer;
+  transition:transform 0.4s;
+}
+.me-post-big:hover{transform:translateY(-4px)}
+.me-post-big-img{aspect-ratio:4/3;position:relative;overflow:hidden}
+.me-post-big-img-inner{position:absolute;inset:0;transition:transform 0.5s}
+.me-post-big:hover .me-post-big-img-inner{transform:scale(1.04)}
+.me-post-big-body{padding:24px}
+.me-post-small{
+  cursor:pointer;transition:transform 0.35s;
+}
+.me-post-small:hover{transform:translateY(-4px)}
+.me-post-small-img{aspect-ratio:1/1;position:relative;overflow:hidden;margin-bottom:14px}
+.me-post-small-img-inner{position:absolute;inset:0;transition:transform 0.5s}
+.me-post-small:hover .me-post-small-img-inner{transform:scale(1.04)}
+
+.me-about{
+  padding:90px 8%;background:#e8e4da;
+  display:grid;grid-template-columns:1.4fr 1fr;gap:80px;align-items:center;
+}
+.me-about-text h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3.5vw,3rem);font-weight:300;color:#2e2d2b;line-height:1.2;margin-bottom:22px}
+.me-about-text h2 em{font-style:italic;color:#8896a4}
+.me-about-text p{font-size:0.9rem;line-height:1.9;color:#6b6b72;margin-bottom:14px;max-width:480px}
+.me-about-img{aspect-ratio:3/4;position:relative;overflow:hidden;background:linear-gradient(160deg,#c4c8c0 0%,#9ea8a4 50%,#7a8480 100%)}
+.me-badge{
+  position:absolute;bottom:24px;right:24px;
+  background:rgba(245,243,239,0.9);border:1px solid rgba(212,208,200,0.5);
+  padding:12px 18px;
+}
+.me-badge-text{font-family:'Cormorant Garamond',serif;font-size:0.85rem;font-style:italic;color:#2e2d2b}
+
+.me-subscribe{text-align:center;padding:90px 8%;background:#2e2d2b}
+.me-subscribe h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,4vw,3.5rem);font-weight:300;color:#e8e4da;margin-bottom:14px}
+.me-subscribe h2 em{font-style:italic;color:#8896a4}
+.me-subscribe p{font-size:0.88rem;line-height:1.8;color:#9a9690;max-width:400px;margin:0 auto 40px}
+.me-sub-wrap{display:flex;max-width:420px;margin:0 auto}
+.me-sub-input{flex:1;padding:13px 18px;border:1px solid rgba(154,150,144,0.25);border-right:none;background:rgba(255,255,255,0.04);font-family:'Jost',sans-serif;font-size:0.82rem;font-weight:300;color:#e8e4da;outline:none;transition:border-color 0.3s}
+.me-sub-input::placeholder{color:rgba(154,150,144,0.4)}
+.me-sub-input:focus{border-color:rgba(154,150,144,0.5)}
+.me-sub-btn{padding:13px 24px;background:rgba(138,158,142,0.2);color:#e8e4da;border:1px solid rgba(138,158,142,0.3);font-family:'Jost',sans-serif;font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;transition:all 0.3s}
+.me-sub-btn:hover{background:rgba(138,158,142,0.35)}
+.me-footer{padding:36px 8%;border-top:1px solid rgba(154,150,144,0.2);display:flex;justify-content:space-between;align-items:center;background:#2e2d2b}
+.me-footer-name{font-family:'Cormorant Garamond',serif;font-size:0.9rem;font-style:italic;color:rgba(154,150,144,0.5)}
+.me-footer-links{display:flex;gap:28px;list-style:none}
+.me-footer-links a{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(154,150,144,0.4);text-decoration:none;transition:color 0.3s}
+.me-footer-links a:hover{color:#e8e4da}
+
+/* ================================================
+   SHARED ANIMATIONS
+   ================================================ */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes scrollPulse{0%,100%{opacity:0.4;transform:scaleY(0.7)}50%{opacity:1;transform:scaleY(1)}}
+@keyframes drift{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes driftSlow{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes cloudFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+
+.reveal{opacity:0;transform:translateY(22px);transition:opacity 0.8s ease,transform 0.8s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-d1{transition-delay:0.1s}
+.reveal-d2{transition-delay:0.22s}
+.reveal-d3{transition-delay:0.34s}
+
+@media(max-width:900px){
+  .demo-nav{padding:16px 20px}
+  .demo-tabs{gap:4px}
+  .demo-tab{padding:6px 12px;font-size:0.6rem}
+  .cards,.da-cards{grid-template-columns:1fr}
+  .d1-about,.da-grid,.me-posts,.me-about{grid-template-columns:1fr}
+  .me-content{grid-template-columns:1fr}
+  .me-right{display:none}
+  .d1-about,.da-section,.d1-writing,.me-writing,.me-about{padding:60px 6%}
+  .d1-subscribe,.da-sub,.me-subscribe{padding:60px 6%}
+}
 </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <a href="#" class="nav-logo">Anika Ballowry</a>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#writing">Writing</a></li>
-    <li><a href="#retreat">Retreat</a></li>
-    <li><a href="#subscribe">Subscribe</a></li>
-  </ul>
+<!-- ——— DEMO NAV ——— -->
+<nav class="demo-nav">
+  <a href="#" class="demo-logo">Anika Ballowry</a>
+  <div class="demo-tabs">
+    <button class="demo-tab active" onclick="switchDemo(1)">Demo 1 · Fog</button>
+    <button class="demo-tab" onclick="switchDemo(2)">Demo 2 · Dark</button>
+    <button class="demo-tab" onclick="switchDemo(3)">Demo 3 · Mist</button>
+  </div>
 </nav>
 
-<!-- HERO -->
-<section class="hero" style="padding:0;">
-  <div class="hero-left">
-    <p class="hero-eyebrow">Writer · Adventurer · Storyteller</p>
-    <h1 class="hero-name">
-      Stories that pull<br>you <em>somewhere else.</em>
-    </h1>
-    <p class="hero-tagline">
-      I write at the intersection of adventure, longing, and the kind of worlds you don't want to leave — then I'm building a place where writers can live in them.
-    </p>
-    <div class="hero-cta">
-      <a href="#writing" class="btn-primary">Read My Work</a>
-      <a href="#subscribe" class="btn-ghost">Get the Newsletter</a>
+<!-- ===============================================
+     DEMO 1
+     =============================================== -->
+<div class="demo-page active" id="demo1">
+
+  <!-- PARALLAX HERO -->
+  <div class="parallax-scene" id="scene1">
+    <!-- Sky -->
+    <div class="p-sky" id="pSky"></div>
+
+    <!-- Far clouds SVG layer -->
+    <div class="p-clouds-far" id="pCloudsFar">
+      <svg width="200%" height="100%" viewBox="0 0 2400 700" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <!-- Drifting far cloud strip, doubled for seamless loop -->
+        <g style="animation:drift 60s linear infinite">
+          <!-- Cloud 1 -->
+          <g opacity="0.45">
+            <ellipse cx="180" cy="160" rx="140" ry="55" fill="#e0ddd8"/>
+            <ellipse cx="260" cy="135" rx="90" ry="50" fill="#e8e4de"/>
+            <ellipse cx="120" cy="148" rx="75" ry="38" fill="#dddad4"/>
+            <ellipse cx="310" cy="158" rx="60" ry="30" fill="#e4e0da"/>
+          </g>
+          <!-- Cloud 2 -->
+          <g opacity="0.35">
+            <ellipse cx="520" cy="100" rx="160" ry="48" fill="#e4e0da"/>
+            <ellipse cx="610" cy="78" rx="100" ry="44" fill="#eae6e0"/>
+            <ellipse cx="450" cy="95" rx="80" ry="35" fill="#dddad4"/>
+          </g>
+          <!-- Cloud 3 -->
+          <g opacity="0.4">
+            <ellipse cx="880" cy="190" rx="180" ry="60" fill="#e0ddd8"/>
+            <ellipse cx="970" cy="162" rx="110" ry="52" fill="#e8e4de"/>
+            <ellipse cx="810" cy="180" rx="90" ry="40" fill="#dddad4"/>
+            <ellipse cx="1030" cy="185" rx="70" ry="32" fill="#e4e0da"/>
+          </g>
+          <!-- Cloud 4 -->
+          <g opacity="0.3">
+            <ellipse cx="1240" cy="120" rx="150" ry="50" fill="#dddad4"/>
+            <ellipse cx="1340" cy="96" rx="95" ry="45" fill="#e4e0da"/>
+          </g>
+          <!-- Wispy streaks -->
+          <path d="M350 220 Q500 200 650 215 Q800 228 900 210" stroke="#d8d4cc" stroke-width="18" fill="none" opacity="0.2" stroke-linecap="round"/>
+          <path d="M100 280 Q320 265 540 275 Q700 282 820 270" stroke="#e0ddd8" stroke-width="12" fill="none" opacity="0.18" stroke-linecap="round"/>
+          <!-- Second half (mirrored/offset for seamless) -->
+          <g opacity="0.45">
+            <ellipse cx="1380" cy="160" rx="140" ry="55" fill="#e0ddd8"/>
+            <ellipse cx="1460" cy="135" rx="90" ry="50" fill="#e8e4de"/>
+            <ellipse cx="1320" cy="148" rx="75" ry="38" fill="#dddad4"/>
+          </g>
+          <g opacity="0.35">
+            <ellipse cx="1720" cy="100" rx="160" ry="48" fill="#e4e0da"/>
+            <ellipse cx="1810" cy="78" rx="100" ry="44" fill="#eae6e0"/>
+          </g>
+          <g opacity="0.4">
+            <ellipse cx="2080" cy="190" rx="180" ry="60" fill="#e0ddd8"/>
+            <ellipse cx="2170" cy="162" rx="110" ry="52" fill="#e8e4de"/>
+            <ellipse cx="2010" cy="180" rx="90" ry="40" fill="#dddad4"/>
+          </g>
+          <path d="M1550 220 Q1700 200 1850 215 Q2000 228 2100 210" stroke="#d8d4cc" stroke-width="18" fill="none" opacity="0.2" stroke-linecap="round"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Near clouds SVG layer -->
+    <div class="p-clouds-near" id="pCloudsNear">
+      <svg width="200%" height="100%" viewBox="0 0 2400 700" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <g style="animation:driftSlow 38s linear infinite">
+          <!-- Large near cloud 1 -->
+          <g opacity="0.6">
+            <ellipse cx="220" cy="240" rx="200" ry="75" fill="#dddad2"/>
+            <ellipse cx="340" cy="205" rx="140" ry="70" fill="#e4e0d8"/>
+            <ellipse cx="140" cy="228" rx="110" ry="52" fill="#d8d4cc"/>
+            <ellipse cx="420" cy="232" rx="85" ry="40" fill="#e0dcd4"/>
+            <ellipse cx="80" cy="255" rx="65" ry="30" fill="#d4d0c8"/>
+          </g>
+          <!-- Near cloud 2 -->
+          <g opacity="0.55">
+            <ellipse cx="700" cy="180" rx="220" ry="80" fill="#e0dcd4"/>
+            <ellipse cx="840" cy="145" rx="155" ry="72" fill="#e8e4dc"/>
+            <ellipse cx="610" cy="170" rx="120" ry="55" fill="#d8d4cc"/>
+            <ellipse cx="920" cy="170" rx="95" ry="44" fill="#e4e0d8"/>
+          </g>
+          <!-- Near wispy ground fog -->
+          <path d="M0 520 Q200 490 400 510 Q600 528 800 505 Q1000 485 1200 500" stroke="#dddad2" stroke-width="60" fill="none" opacity="0.35" stroke-linecap="round"/>
+          <path d="M0 560 Q300 540 600 555 Q850 568 1100 548 Q1200 542 1300 550" stroke="#e4e0d8" stroke-width="80" fill="none" opacity="0.28" stroke-linecap="round"/>
+          <!-- Second half -->
+          <g opacity="0.6">
+            <ellipse cx="1420" cy="240" rx="200" ry="75" fill="#dddad2"/>
+            <ellipse cx="1540" cy="205" rx="140" ry="70" fill="#e4e0d8"/>
+            <ellipse cx="1340" cy="228" rx="110" ry="52" fill="#d8d4cc"/>
+          </g>
+          <g opacity="0.55">
+            <ellipse cx="1900" cy="180" rx="220" ry="80" fill="#e0dcd4"/>
+            <ellipse cx="2040" cy="145" rx="155" ry="72" fill="#e8e4dc"/>
+          </g>
+          <path d="M1200 520 Q1400 490 1600 510 Q1800 528 2000 505 Q2200 485 2400 500" stroke="#dddad2" stroke-width="60" fill="none" opacity="0.35" stroke-linecap="round"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Ground mist SVG -->
+    <div class="p-mist-ground" id="pMist">
+      <svg width="100%" height="220" viewBox="0 0 1440 220" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="mistGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#dddad4" stop-opacity="0"/>
+            <stop offset="50%" stop-color="#dddad4" stop-opacity="0.5"/>
+            <stop offset="100%" stop-color="#e8e4dc" stop-opacity="0.85"/>
+          </linearGradient>
+        </defs>
+        <!-- Undulating mist ground -->
+        <path d="M0 140 Q180 110 360 130 Q540 148 720 118 Q900 90 1080 120 Q1260 148 1440 110 L1440 220 L0 220 Z" fill="url(#mistGrad)" opacity="0.7"/>
+        <path d="M0 165 Q240 148 480 162 Q720 175 960 155 Q1200 138 1440 160 L1440 220 L0 220 Z" fill="#e4e0d8" opacity="0.55"/>
+        <!-- Wispy tendrils -->
+        <path d="M120 180 Q200 165 280 178 Q360 190 440 172" stroke="#dddad4" stroke-width="20" fill="none" opacity="0.4" stroke-linecap="round"/>
+        <path d="M600 190 Q700 174 800 188 Q900 200 1000 182" stroke="#e0ddd8" stroke-width="16" fill="none" opacity="0.35" stroke-linecap="round"/>
+        <path d="M1100 175 Q1220 160 1340 172 Q1380 176 1440 168" stroke="#dddad4" stroke-width="14" fill="none" opacity="0.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <!-- Tree silhouette -->
+    <div class="p-trees" id="pTrees">
+      <svg width="100%" height="340" viewBox="0 0 1440 340" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+        <!-- Far thin trees -->
+        <g fill="#b0aba2" opacity="0.35">
+          <rect x="80" y="80" width="4" height="260"/>
+          <polygon points="82,80 50,180 114,180"/>
+          <polygon points="82,110 44,200 120,200"/>
+          <polygon points="82,145 38,240 126,240"/>
+          <rect x="200" y="120" width="3" height="220"/>
+          <polygon points="201,120 175,210 227,210"/>
+          <polygon points="201,150 170,235 232,235"/>
+          <rect x="1280" y="90" width="4" height="250"/>
+          <polygon points="1282,90 1250,185 1314,185"/>
+          <polygon points="1282,125 1244,220 1320,220"/>
+          <rect x="1360" y="130" width="3" height="210"/>
+          <polygon points="1361,130 1335,215 1387,215"/>
+        </g>
+        <!-- Near dark trees -->
+        <g fill="#8a8880" opacity="0.65">
+          <rect x="0" y="40" width="6" height="300"/>
+          <polygon points="3,40 -35,160 41,160"/>
+          <polygon points="3,75 -42,190 48,190"/>
+          <polygon points="3,115 -48,225 54,225"/>
+          <rect x="320" y="20" width="7" height="320"/>
+          <polygon points="323,20 275,155 371,155"/>
+          <polygon points="323,60 268,185 378,185"/>
+          <polygon points="323,105 260,225 386,225"/>
+          <polygon points="323,155 254,268 392,268"/>
+          <rect x="580" y="60" width="5" height="280"/>
+          <polygon points="582,60 548,165 616,165"/>
+          <polygon points="582,95 542,195 622,195"/>
+          <polygon points="582,135 536,235 628,235"/>
+          <rect x="860" y="30" width="6" height="310"/>
+          <polygon points="863,30 820,155 906,155"/>
+          <polygon points="863,72 814,188 912,188"/>
+          <polygon points="863,118 808,230 918,230"/>
+          <rect x="1140" y="50" width="5" height="290"/>
+          <polygon points="1142,50 1108,160 1176,160"/>
+          <polygon points="1142,88 1102,192 1182,192"/>
+          <polygon points="1142,130 1096,232 1188,232"/>
+          <rect x="1435" y="45" width="6" height="295"/>
+          <polygon points="1438,45 1400,165 1476,165"/>
+          <polygon points="1438,82 1394,198 1482,198"/>
+        </g>
+        <!-- Ground base -->
+        <rect x="0" y="300" width="1440" height="40" fill="#c8c4bc" opacity="0.4"/>
+      </svg>
+    </div>
+
+    <!-- Hero content -->
+    <div class="p-content">
+      <p class="p-eyebrow">Writer · Adventurer · Storyteller</p>
+      <h1 class="p-title">Stories that pull<br>you <em>somewhere else.</em></h1>
+      <p class="p-subtitle">I write at the edge of adventure and longing — then I'm building a retreat where writers can live inside the story.</p>
+      <div class="p-cta">
+        <a href="#d1-writing" class="btn-dark">Read My Work</a>
+        <a href="#d1-subscribe" class="btn-line">Get the Newsletter</a>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
     </div>
   </div>
 
-  <div class="hero-right">
-    <div class="hero-image-bg"></div>
-    <div class="fog-layer"></div>
-    <div class="hero-line"></div>
-    <div class="hero-quote">
-      <blockquote>
-        "The morning mist doesn't hide the world — it makes you lean in closer to find it."
-      </blockquote>
-      <cite>Anika Ballowry</cite>
+  <!-- ABOUT -->
+  <div class="d1-about">
+    <div class="d1-photo reveal">
+      <div style="position:absolute;inset:0">
+        <!-- Atmospheric photo placeholder with SVG fog effect -->
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <radialGradient id="photoGrad" cx="50%" cy="40%" r="60%">
+              <stop offset="0%" stop-color="#bcc0bc"/>
+              <stop offset="100%" stop-color="#8a8e8a"/>
+            </radialGradient>
+            <linearGradient id="photoFog" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="60%" stop-color="transparent"/>
+              <stop offset="100%" stop-color="#c8c4bc" stop-opacity="0.6"/>
+            </linearGradient>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#photoGrad)"/>
+          <!-- Silhouette shape -->
+          <ellipse cx="50%" cy="32%" rx="22%" ry="22%" fill="#7a7e7a" opacity="0.3"/>
+          <rect x="35%" y="54%" width="30%" height="46%" fill="#7a7e7a" opacity="0.25"/>
+          <rect width="100%" height="100%" fill="url(#photoFog)"/>
+          <!-- Decorative corner marks -->
+          <line x1="8" y1="8" x2="28" y2="8" stroke="#9a9690" stroke-width="1.5" opacity="0.5"/>
+          <line x1="8" y1="8" x2="8" y2="28" stroke="#9a9690" stroke-width="1.5" opacity="0.5"/>
+        </svg>
+      </div>
+      <div class="d1-photo-tag">aspiring<br>author</div>
     </div>
-    <span class="hero-image-text">somewhere in the fog</span>
-  </div>
-</section>
-
-<!-- ABOUT -->
-<section class="about" id="about">
-  <div class="about-photo reveal">
-    <div class="about-photo-inner"></div>
-    <span class="about-photo-caption">somewhere with good light</span>
-    <div class="about-photo-tag">aspiring<br>author</div>
-  </div>
-
-  <div class="about-content">
-    <p class="section-label reveal">About</p>
-    <h2 class="reveal">I write stories <em>you can<br>disappear into.</em></h2>
-    <p class="reveal">I'm Anika — a writer, archer, and aspiring builder of adventure writing retreats. My stories tend to live in the hazy space between the real and the mythic: forests that feel too alive, people who feel too lost, and mornings that feel like they're holding their breath.</p>
-    <p class="reveal">When I'm not writing, I'm usually planning the retreat where writers can do exactly what I do — live inside the story, for a little while. Come into my world, and maybe find your own.</p>
-    <div class="about-detail reveal">
-      <div class="about-stat">
-        <span class="about-stat-num">16</span>
-        <span class="about-stat-label">Posts & Stories</span>
-      </div>
-      <div class="about-stat">
-        <span class="about-stat-num">∞</span>
-        <span class="about-stat-label">Worlds Invented</span>
-      </div>
-      <div class="about-stat">
-        <span class="about-stat-num">1</span>
-        <span class="about-stat-label">Retreat in Progress</span>
+    <div class="about-content">
+      <p class="section-label reveal">About</p>
+      <h2 class="reveal d1-about-h2" style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3.5vw,3rem);font-weight:300;line-height:1.2;color:var(--ink);margin-bottom:24px">I write stories<br><em style="font-style:italic;color:var(--blue-grey)">you disappear into.</em></h2>
+      <p class="reveal" style="font-size:0.92rem;line-height:1.9;color:var(--slate);margin-bottom:14px;max-width:480px">I'm Anika — a writer, archer, and aspiring builder of adventure writing retreats. My stories tend to live in the hazy space between the real and the mythic: forests that feel too alive, people who feel too lost, mornings that feel like they're holding their breath.</p>
+      <p class="reveal" style="font-size:0.92rem;line-height:1.9;color:var(--slate);margin-bottom:14px;max-width:480px">When I'm not writing, I'm planning the retreat where writers can do exactly what I do — live inside the story for a little while.</p>
+      <div class="stats reveal">
+        <div><div class="stat-num">16</div><div class="stat-label">Posts &amp; Stories</div></div>
+        <div><div class="stat-num">∞</div><div class="stat-label">Worlds Invented</div></div>
+        <div><div class="stat-num">1</div><div class="stat-label">Retreat in Progress</div></div>
       </div>
     </div>
   </div>
-</section>
 
-<!-- WRITING -->
-<section class="writing" id="writing">
-  <div class="writing-header">
-    <div>
-      <p class="section-label reveal">Writing</p>
-      <h2 class="reveal">Recent <em>work</em></h2>
+  <!-- WRITING -->
+  <div class="d1-writing" id="d1-writing">
+    <div class="writing-header reveal">
+      <div>
+        <p class="section-label">Writing</p>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,4vw,3.2rem);font-weight:300;color:var(--ink)">Recent <em style="font-style:italic;color:var(--stone)">work</em></h2>
+      </div>
+      <a href="#" class="btn-line">All Writing</a>
     </div>
-    <a href="#" class="view-all reveal">All Writing</a>
-  </div>
-
-  <div class="cards-grid">
-    <!-- Card 1 -->
-    <div class="card card-1 reveal">
-      <div class="card-image">
-        <div class="card-img-bg"></div>
-        <div class="card-fog"></div>
-        <span class="card-atmosphere">chapter one</span>
+    <div class="cards">
+      <div class="card reveal">
+        <div class="card-img"><div class="card-img-inner c1b"></div><div class="card-fog-overlay"></div><span class="card-atm">chapter one</span></div>
+        <div><p class="card-type">Short Story</p><h3 class="card-title">The Fog That Stayed</h3><p class="card-excerpt">A morning in a valley where the mist never lifted, and the girl who decided not to wait for it to.</p><a href="#" class="card-link">Read on Substack</a></div>
       </div>
-      <div class="card-body">
-        <p class="card-type">Short Story</p>
-        <h3 class="card-title">The Fog That Stayed</h3>
-        <p class="card-excerpt">A morning in a valley where the mist never lifted, and the girl who decided not to wait for it to.</p>
-        <a href="#" class="card-link">Read on Substack</a>
+      <div class="card reveal reveal-d1">
+        <div class="card-img"><div class="card-img-inner c2b"></div><div class="card-fog-overlay"></div><span class="card-atm">in progress</span></div>
+        <div><p class="card-type">Essay</p><h3 class="card-title">On Writing Fantasy Worlds You Actually Live In</h3><p class="card-excerpt">The worlds I write are places I visit. This is about what happens when you don't come back.</p><a href="#" class="card-link">Read on Substack</a></div>
       </div>
-    </div>
-
-    <!-- Card 2 -->
-    <div class="card card-2 reveal reveal-delay-1">
-      <div class="card-image">
-        <div class="card-img-bg"></div>
-        <div class="card-fog"></div>
-        <span class="card-atmosphere">in progress</span>
-      </div>
-      <div class="card-body">
-        <p class="card-type">Essay</p>
-        <h3 class="card-title">On Writing Fantasy Worlds You Actually Live In</h3>
-        <p class="card-excerpt">The worlds I write are places I visit. This is about what happens when you don't come back.</p>
-        <a href="#" class="card-link">Read on Substack</a>
-      </div>
-    </div>
-
-    <!-- Card 3 -->
-    <div class="card card-3 reveal reveal-delay-2">
-      <div class="card-image">
-        <div class="card-img-bg"></div>
-        <div class="card-fog"></div>
-        <span class="card-atmosphere">series</span>
-      </div>
-      <div class="card-body">
-        <p class="card-type">Ongoing Series</p>
-        <h3 class="card-title">Letters from the Retreat I'm Building</h3>
-        <p class="card-excerpt">Dispatches from the process of creating something no one has ever asked for but everyone secretly wants.</p>
-        <a href="#" class="card-link">Read on Substack</a>
+      <div class="card reveal reveal-d2">
+        <div class="card-img"><div class="card-img-inner c3b"></div><div class="card-fog-overlay"></div><span class="card-atm">series</span></div>
+        <div><p class="card-type">Ongoing Series</p><h3 class="card-title">Letters from the Retreat I'm Building</h3><p class="card-excerpt">Dispatches from creating something nobody asked for but everyone secretly wants.</p><a href="#" class="card-link">Read on Substack</a></div>
       </div>
     </div>
   </div>
-</section>
 
-<!-- RETREAT BANNER -->
-<section class="retreat" id="retreat" style="padding: 80px 60px;">
-  <div class="retreat-left">
-    <p class="retreat-label">Coming Soon</p>
-    <h2>Not your average <em>writing retreat.</em></h2>
-    <p>I'm building an immersive, all-inclusive adventure where writers can live inside a story instead of just telling one. Archery, forests, candlelight, and all the time in the world to write. Come live in a world for a while.</p>
-  </div>
-  <div class="retreat-right">
-    <div class="retreat-detail">
-      <p class="retreat-detail-label">Format</p>
-      <p class="retreat-detail-value">Immersive, all-inclusive adventure</p>
+  <!-- SUBSCRIBE -->
+  <div class="d1-subscribe" id="d1-subscribe">
+    <h2 class="reveal">Letters from <em>the fog.</em></h2>
+    <p class="reveal">Stories, retreat updates, and dispatches from the worlds I'm building. No noise — just writing worth lingering over.</p>
+    <div class="sub-form reveal">
+      <input class="sub-input" type="email" placeholder="your@email.com">
+      <button class="sub-btn" onclick="handleSub(this,this.previousElementSibling)">Subscribe</button>
     </div>
-    <div class="retreat-detail">
-      <p class="retreat-detail-label">For</p>
-      <p class="retreat-detail-value">Writers who want to live the story</p>
-    </div>
-    <div class="retreat-detail">
-      <p class="retreat-detail-label">Status</p>
-      <p class="retreat-detail-value">In the making — follow along</p>
-    </div>
-    <a href="#subscribe" class="btn-primary" style="align-self: flex-start; margin-top: 8px;">Stay in the Loop</a>
-  </div>
-</section>
-
-<!-- SUBSCRIBE -->
-<section class="subscribe" id="subscribe">
-  <h2 class="reveal">Letters from <em>the fog.</em></h2>
-  <p class="reveal">Stories, updates on the retreat, and dispatches from the worlds I'm building. No noise — just writing worth lingering over.</p>
-
-  <div class="subscribe-form reveal">
-    <input type="email" class="subscribe-input" placeholder="your@email.com">
-    <button class="subscribe-btn">Subscribe</button>
+    <p class="sub-note reveal">No spam. Unsubscribe any time.</p>
   </div>
 
-  <p class="subscribe-subtext reveal">No spam. Unsubscribe any time.</p>
+  <!-- FOOTER -->
+  <footer class="d1-footer">
+    <span class="footer-name">Anika Ballowry</span>
+    <ul class="footer-links">
+      <li><a href="#">Writing</a></li><li><a href="#">About</a></li>
+      <li><a href="https://instagram.com/anika_ballowry" target="_blank">Instagram</a></li>
+      <li><a href="#">Substack</a></li>
+    </ul>
+    <span style="font-size:0.62rem;color:var(--mist);letter-spacing:0.08em">© 2026</span>
+  </footer>
+</div>
 
-  <a href="https://substack.com" target="_blank" class="substack-link reveal">
-    Or read the archive on Substack →
-  </a>
-</section>
+<!-- ===============================================
+     DEMO 2
+     =============================================== -->
+<div class="demo-page" id="demo2">
 
-<!-- FOOTER -->
-<footer>
-  <span class="footer-name">Anika Ballowry</span>
-  <ul class="footer-links">
-    <li><a href="#">Writing</a></li>
-    <li><a href="#">About</a></li>
-    <li><a href="https://www.instagram.com/anika_ballowry/" target="_blank">Instagram</a></li>
-    <li><a href="#">Substack</a></li>
-  </ul>
-  <span class="footer-copy">© 2026</span>
-</footer>
+  <!-- DARK PARALLAX HERO -->
+  <div class="da-parallax" id="scene2">
+    <div class="da-bg" id="daBg"></div>
+
+    <!-- Dark clouds SVG layer -->
+    <div style="position:absolute;inset:0;pointer-events:none;will-change:transform" id="daClouds">
+      <svg width="200%" height="100%" viewBox="0 0 2400 700" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <g style="animation:drift 50s linear infinite">
+          <!-- Dark dramatic clouds -->
+          <g opacity="0.5">
+            <ellipse cx="200" cy="150" rx="180" ry="65" fill="#1e1b16"/>
+            <ellipse cx="310" cy="120" rx="120" ry="58" fill="#242018"/>
+            <ellipse cx="120" cy="140" rx="95" ry="45" fill="#1a1714"/>
+            <ellipse cx="380" cy="148" rx="75" ry="35" fill="#20201a"/>
+          </g>
+          <g opacity="0.45">
+            <ellipse cx="640" cy="90" rx="200" ry="60" fill="#1e1b16"/>
+            <ellipse cx="760" cy="62" rx="130" ry="55" fill="#242018"/>
+            <ellipse cx="550" cy="84" rx="105" ry="42" fill="#1a1714"/>
+          </g>
+          <g opacity="0.55">
+            <ellipse cx="1000" cy="180" rx="220" ry="75" fill="#1e1b16"/>
+            <ellipse cx="1110" cy="148" rx="145" ry="65" fill="#26221e"/>
+            <ellipse cx="900" cy="168" rx="115" ry="50" fill="#1a1714"/>
+          </g>
+          <!-- Edge light on clouds -->
+          <path d="M110 118 Q200 102 290 115" stroke="#3a3428" stroke-width="3" fill="none" opacity="0.6" stroke-linecap="round"/>
+          <path d="M550 68 Q640 50 730 62" stroke="#3a3428" stroke-width="2.5" fill="none" opacity="0.5" stroke-linecap="round"/>
+          <!-- Second half -->
+          <g opacity="0.5">
+            <ellipse cx="1400" cy="150" rx="180" ry="65" fill="#1e1b16"/>
+            <ellipse cx="1510" cy="120" rx="120" ry="58" fill="#242018"/>
+          </g>
+          <g opacity="0.45">
+            <ellipse cx="1840" cy="90" rx="200" ry="60" fill="#1e1b16"/>
+            <ellipse cx="1960" cy="62" rx="130" ry="55" fill="#242018"/>
+          </g>
+          <g opacity="0.55">
+            <ellipse cx="2200" cy="180" rx="220" ry="75" fill="#1e1b16"/>
+            <ellipse cx="2310" cy="148" rx="145" ry="65" fill="#26221e"/>
+          </g>
+          <!-- Stars -->
+          <g fill="#f0ead8" opacity="0.5">
+            <circle cx="450" cy="40" r="1.2"/><circle cx="750" cy="25" r="0.9"/>
+            <circle cx="970" cy="55" r="1.1"/><circle cx="1150" cy="32" r="0.8"/>
+            <circle cx="250" cy="48" r="1"/><circle cx="820" cy="38" r="1.3"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Ground mist dark -->
+    <div style="position:absolute;bottom:0;left:0;right:0;pointer-events:none;will-change:transform" id="daMist">
+      <svg width="100%" height="240" viewBox="0 0 1440 240" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="darkMistGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#252118" stop-opacity="0"/>
+            <stop offset="60%" stop-color="#1e1b16" stop-opacity="0.6"/>
+            <stop offset="100%" stop-color="#141210" stop-opacity="0.9"/>
+          </linearGradient>
+        </defs>
+        <path d="M0 155 Q200 130 400 148 Q600 165 800 138 Q1000 112 1200 140 Q1320 155 1440 128 L1440 240 L0 240 Z" fill="url(#darkMistGrad)"/>
+        <path d="M0 175 Q300 160 600 172 Q900 183 1200 165 Q1350 158 1440 170 L1440 240 L0 240 Z" fill="#141210" opacity="0.55"/>
+      </svg>
+    </div>
+
+    <!-- Dark tree silhouettes -->
+    <div style="position:absolute;bottom:0;left:0;right:0;pointer-events:none;will-change:transform" id="daTrees">
+      <svg width="100%" height="320" viewBox="0 0 1440 320" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#0d0b09" opacity="0.9">
+          <rect x="0" y="30" width="7" height="290"/><polygon points="3,30 -40,155 46,155"/><polygon points="3,70 -46,185 52,185"/><polygon points="3,115 -52,225 58,225"/>
+          <rect x="180" y="60" width="5" height="260"/><polygon points="182,60 150,165 214,165"/><polygon points="182,95 145,195 219,195"/>
+          <rect x="360" y="20" width="8" height="300"/><polygon points="364,20 310,158 418,158"/><polygon points="364,65 305,192 423,192"/><polygon points="364,115 298,234 430,234"/>
+          <rect x="560" y="50" width="6" height="270"/><polygon points="563,50 525,162 601,162"/><polygon points="563,88 518,195 608,195"/>
+          <rect x="740" y="35" width="7" height="285"/><polygon points="743,35 698,158 788,158"/><polygon points="743,78 690,192 796,192"/>
+          <rect x="940" y="55" width="6" height="265"/><polygon points="943,55 905,165 981,165"/><polygon points="943,92 898,198 988,198"/>
+          <rect x="1110" y="25" width="8" height="295"/><polygon points="1114,25 1060,162 1168,162"/><polygon points="1114,70 1052,196 1176,196"/>
+          <rect x="1310" y="45" width="6" height="275"/><polygon points="1313,45 1275,155 1351,155"/><polygon points="1313,82 1268,188 1358,188"/>
+          <rect x="1434" y="40" width="7" height="280"/><polygon points="1437,40 1395,162 1479,162"/>
+        </g>
+        <rect x="0" y="295" width="1440" height="25" fill="#0d0b09" opacity="0.7"/>
+      </svg>
+    </div>
+
+    <!-- DA hero content -->
+    <div class="da-content">
+      <p class="da-eyebrow">Writer · Adventurer · Storyteller</p>
+      <h1 class="da-title">Into the <em>dark wood,</em><br>then write about it.</h1>
+      <div class="da-rule"></div>
+      <p class="da-subtitle">Stories that live at the edge of the mythic. A retreat where writers learn to step into the world they're building.</p>
+      <div class="da-cta">
+        <a href="#da-work" class="btn-ghost-dark">Read My Work</a>
+        <a href="#da-sub" class="btn-ghost-dark">Subscribe</a>
+      </div>
+    </div>
+
+    <div class="scroll-hint" style="color:rgba(154,150,144,0.5)">
+      <span style="color:rgba(154,150,144,0.5)">Scroll</span>
+      <div class="scroll-line" style="background:linear-gradient(to bottom,rgba(154,150,144,0.5),transparent)"></div>
+    </div>
+  </div>
+
+  <!-- DA About -->
+  <div class="da-section">
+    <div class="da-grid">
+      <div>
+        <p class="da-label reveal">About</p>
+        <h2 class="da-h2 reveal">I write worlds<br><em>worth getting lost in.</em></h2>
+        <p class="da-p reveal">I'm Anika — a writer, archer, and aspiring builder of immersive writing retreats. My stories tend to live in the hazy space between the real and the mythic: forests that feel too alive, people who feel too lost, mornings that hold their breath.</p>
+        <p class="da-p reveal">I'm building a retreat where writers can live inside the story. Come into my world, and maybe find your own.</p>
+      </div>
+      <div class="da-img-box reveal">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <radialGradient id="daPhotoGrad" cx="50%" cy="40%" r="60%">
+              <stop offset="0%" stop-color="#2e2a22"/>
+              <stop offset="100%" stop-color="#14120e"/>
+            </radialGradient>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#daPhotoGrad)"/>
+          <ellipse cx="50%" cy="30%" rx="20%" ry="20%" fill="#1a1814" opacity="0.6"/>
+          <rect x="35%" y="50%" width="30%" height="50%" fill="#1a1814" opacity="0.5"/>
+          <!-- Atmospheric light effect -->
+          <ellipse cx="50%" cy="20%" rx="30%" ry="15%" fill="#3a3428" opacity="0.3"/>
+        </svg>
+        <span class="da-img-decor">somewhere with good light</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DA Writing cards -->
+  <div class="da-section" id="da-work">
+    <p class="da-label reveal">Writing</p>
+    <h2 class="da-h2 reveal">Recent <em>dispatches</em></h2>
+    <div class="da-cards">
+      <div class="da-card reveal">
+        <div class="da-card-num">01</div>
+        <h3 class="da-card-title">The Fog That Stayed</h3>
+        <p class="da-card-text">A morning in a valley where the mist never lifted, and the girl who decided not to wait for it to.</p>
+      </div>
+      <div class="da-card reveal reveal-d1">
+        <div class="da-card-num">02</div>
+        <h3 class="da-card-title">On Writing Fantasy Worlds You Actually Live In</h3>
+        <p class="da-card-text">The worlds I write are places I visit. This is about what happens when you don't come back.</p>
+      </div>
+      <div class="da-card reveal reveal-d2">
+        <div class="da-card-num">03</div>
+        <h3 class="da-card-title">Letters from the Retreat</h3>
+        <p class="da-card-text">Dispatches from creating something nobody asked for but everyone secretly wants.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- DA Subscribe -->
+  <div class="da-sub" id="da-sub">
+    <h2 class="reveal">Enter the <em>mist.</em></h2>
+    <p class="reveal">Stories and dispatches from the worlds I'm building. Nothing loud.</p>
+    <div class="da-sub-form reveal">
+      <input class="da-input" type="email" placeholder="your@email.com">
+      <button class="da-sub-btn" onclick="handleSub(this,this.previousElementSibling)">Subscribe</button>
+    </div>
+  </div>
+
+  <footer class="da-footer">
+    <span class="da-footer-name">Anika Ballowry</span>
+    <ul class="da-footer-links">
+      <li><a href="#">Writing</a></li><li><a href="#">About</a></li>
+      <li><a href="https://instagram.com/anika_ballowry" target="_blank">Instagram</a></li>
+    </ul>
+    <span style="font-size:0.6rem;color:rgba(154,150,144,0.25);letter-spacing:0.08em">© 2026</span>
+  </footer>
+</div>
+
+<!-- ===============================================
+     DEMO 3
+     =============================================== -->
+<div class="demo-page" id="demo3">
+
+  <!-- MISTY HERO -->
+  <div class="me-hero" id="scene3">
+
+    <!-- Floating cloud SVGs — multiple layers -->
+    <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none">
+      <svg style="position:absolute;top:0;left:0;width:100%;height:100%" viewBox="0 0 1440 700" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <!-- Distant small clouds -->
+        <g opacity="0.4" style="animation:cloudFloat 8s ease-in-out infinite">
+          <ellipse cx="120" cy="80" rx="85" ry="32" fill="#c8cdd4"/>
+          <ellipse cx="175" cy="60" rx="55" ry="28" fill="#d0d4da"/>
+          <ellipse cx="70" cy="74" rx="45" ry="22" fill="#c4c8d0"/>
+        </g>
+        <g opacity="0.35" style="animation:cloudFloat 11s ease-in-out 2s infinite">
+          <ellipse cx="1300" cy="100" rx="100" ry="38" fill="#c8cdd4"/>
+          <ellipse cx="1370" cy="76" rx="65" ry="32" fill="#d0d4da"/>
+          <ellipse cx="1240" cy="93" rx="55" ry="25" fill="#c4c8d0"/>
+        </g>
+        <g opacity="0.45" style="animation:cloudFloat 9.5s ease-in-out 1s infinite">
+          <ellipse cx="720" cy="60" rx="110" ry="38" fill="#cdd2d8"/>
+          <ellipse cx="800" cy="36" rx="70" ry="33" fill="#d4d8de"/>
+          <ellipse cx="645" cy="55" rx="62" ry="26" fill="#c8cdd4"/>
+        </g>
+        <!-- Mid clouds with animation -->
+        <g opacity="0.55" style="animation:cloudFloat 12s ease-in-out 0.5s infinite">
+          <ellipse cx="280" cy="190" rx="155" ry="58" fill="#c4c8c4"/>
+          <ellipse cx="380" cy="158" rx="105" ry="52" fill="#ccd0cc"/>
+          <ellipse cx="200" cy="180" rx="90" ry="40" fill="#bec2be"/>
+          <ellipse cx="440" cy="183" rx="70" ry="33" fill="#c8ccc8"/>
+        </g>
+        <g opacity="0.5" style="animation:cloudFloat 10s ease-in-out 3s infinite">
+          <ellipse cx="1100" cy="170" rx="165" ry="62" fill="#c8cdd4"/>
+          <ellipse cx="1210" cy="138" rx="110" ry="55" fill="#d0d4da"/>
+          <ellipse cx="1010" cy="162" rx="95" ry="43" fill="#c4c8d0"/>
+          <ellipse cx="1270" cy="166" rx="72" ry="34" fill="#ccd0d6"/>
+        </g>
+        <!-- Wispy streaks -->
+        <path d="M400 280 Q580 260 760 272 Q920 282 1040 265" stroke="#c8c4bc" stroke-width="22" fill="none" opacity="0.22" stroke-linecap="round"/>
+        <path d="M600 320 Q750 306 900 318 Q1050 329 1150 312" stroke="#ccc8c0" stroke-width="15" fill="none" opacity="0.18" stroke-linecap="round"/>
+        <!-- Ground fog rising -->
+        <path d="M0 520 Q200 495 400 512 Q600 528 800 505 Q1000 482 1200 502 Q1350 516 1440 495 L1440 700 L0 700 Z" fill="#d4d0c8" opacity="0.38"/>
+        <path d="M0 560 Q300 540 600 555 Q850 568 1100 548 Q1300 535 1440 552 L1440 700 L0 700 Z" fill="#dddad4" opacity="0.42"/>
+        <path d="M0 600 Q180 588 360 598 Q540 608 720 594 Q900 582 1080 596 Q1260 608 1440 590 L1440 700 L0 700 Z" fill="#e4e0d8" opacity="0.5"/>
+      </svg>
+    </div>
+
+    <!-- Light tree silhouettes -->
+    <div style="position:absolute;bottom:0;left:0;right:0;pointer-events:none;will-change:transform" id="meTrees">
+      <svg width="100%" height="300" viewBox="0 0 1440 300" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#9a9e96" opacity="0.5">
+          <rect x="5" y="50" width="5" height="250"/><polygon points="7,50 -28,160 42,160"/><polygon points="7,85 -33,190 47,190"/><polygon points="7,125 -38,228 52,228"/>
+          <rect x="240" y="30" width="6" height="270"/><polygon points="243,30 200,155 286,155"/><polygon points="243,72 194,188 292,188"/><polygon points="243,118 188,230 298,230"/>
+          <rect x="480" y="55" width="5" height="245"/><polygon points="482,55 450,158 514,158"/><polygon points="482,90 444,190 520,190"/>
+          <rect x="700" y="25" width="6" height="275"/><polygon points="703,25 660,152 746,152"/><polygon points="703,68 654,185 752,185"/>
+          <rect x="930" y="45" width="5" height="255"/><polygon points="932,45 898,152 966,152"/><polygon points="932,82 892,185 972,185"/>
+          <rect x="1150" y="35" width="6" height="265"/><polygon points="1153,35 1110,160 1196,160"/><polygon points="1153,78 1104,193 1202,193"/>
+          <rect x="1380" y="50" width="5" height="250"/><polygon points="1382,50 1350,155 1414,155"/><polygon points="1382,86 1344,187 1420,187"/>
+          <rect x="1435" y="40" width="5" height="260"/>
+        </g>
+        <rect x="0" y="280" width="1440" height="20" fill="#b8b4ac" opacity="0.3"/>
+      </svg>
+    </div>
+
+    <div class="me-content">
+      <div class="me-left">
+        <p class="me-label">Writer · Adventurer · Storyteller</p>
+        <h1 class="me-h1">Anika<br><em>Ballowry</em></h1>
+        <p class="me-p">Stories that pull you into another world. A retreat where you can live in one. Letters from the fog, every week.</p>
+        <div class="me-actions">
+          <a href="#me-writing" class="btn-dark">Read My Work</a>
+          <a href="#me-subscribe" class="btn-line">Subscribe</a>
+        </div>
+      </div>
+      <div class="me-right">
+        <div class="me-quote-card">
+          <blockquote>"Stop writing fantasy worlds. Come live in one."</blockquote>
+          <cite>Anika Ballowry</cite>
+          <div class="me-quote-tag">Retreat 2026</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </div>
+
+  <!-- Strip -->
+  <div class="me-strip">
+    <span class="strip-item">Short stories</span><div class="strip-dot"></div>
+    <span class="strip-item">Essays on writing</span><div class="strip-dot"></div>
+    <span class="strip-item">Adventure retreat dispatches</span><div class="strip-dot"></div>
+    <span class="strip-item">Archery & outdoor writing</span><div class="strip-dot"></div>
+    <span class="strip-item">Weekly Substack</span><div class="strip-dot"></div>
+    <span class="strip-item">Short stories</span><div class="strip-dot"></div>
+    <span class="strip-item">Essays on writing</span>
+  </div>
+
+  <!-- Writing -->
+  <div class="me-writing" id="me-writing">
+    <div class="me-writing-header reveal">
+      <p class="section-label">Writing</p>
+      <h2>Recent <em>work</em></h2>
+    </div>
+    <div class="me-posts reveal">
+      <!-- Big post -->
+      <div class="me-post-big">
+        <div class="me-post-big-img">
+          <div class="me-post-big-img-inner" style="background:linear-gradient(160deg,#b8c4bc 0%,#8a9890 40%,#6e7a72 100%)"></div>
+          <div style="position:absolute;bottom:0;left:0;right:0;height:50%;background:linear-gradient(to top,rgba(46,45,43,0.45) 0%,transparent 100%)"></div>
+          <span style="position:absolute;top:18px;left:18px;font-family:'Cormorant Garamond',serif;font-size:0.72rem;font-style:italic;color:rgba(245,243,239,0.5);letter-spacing:0.08em">featured</span>
+        </div>
+        <div class="me-post-big-body">
+          <p style="font-size:0.58rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--sage);margin-bottom:8px">Short Story</p>
+          <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:400;color:var(--ink);line-height:1.3;margin-bottom:10px">The Fog That Stayed</h3>
+          <p style="font-size:0.82rem;line-height:1.75;color:var(--stone);margin-bottom:14px">A morning in a valley where the mist never lifted, and the girl who decided not to wait for it to.</p>
+          <a href="#" class="card-link">Read on Substack</a>
+        </div>
+      </div>
+      <!-- Small posts -->
+      <div>
+        <div class="me-post-small">
+          <div class="me-post-small-img">
+            <div class="me-post-small-img-inner" style="background:linear-gradient(160deg,#c4beb8 0%,#a0978e 40%,#7a706a 100%)"></div>
+            <div style="position:absolute;bottom:0;left:0;right:0;height:45%;background:linear-gradient(to top,rgba(46,45,43,0.4),transparent)"></div>
+          </div>
+          <p style="font-size:0.58rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--sage);margin-bottom:6px">Essay</p>
+          <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:400;color:var(--ink);line-height:1.3;margin-bottom:8px">On Writing Worlds You Live In</h3>
+          <a href="#" class="card-link" style="font-size:0.62rem">Read</a>
+        </div>
+        <div class="me-post-small" style="margin-top:24px">
+          <div class="me-post-small-img">
+            <div class="me-post-small-img-inner" style="background:linear-gradient(160deg,#b8bec4 0%,#8e96a0 40%,#6a7278 100%)"></div>
+            <div style="position:absolute;bottom:0;left:0;right:0;height:45%;background:linear-gradient(to top,rgba(46,45,43,0.4),transparent)"></div>
+          </div>
+          <p style="font-size:0.58rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--sage);margin-bottom:6px">Series</p>
+          <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:400;color:var(--ink);line-height:1.3;margin-bottom:8px">Letters from the Retreat</h3>
+          <a href="#" class="card-link" style="font-size:0.62rem">Read</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- About -->
+  <div class="me-about">
+    <div class="me-about-text reveal">
+      <p class="section-label">About</p>
+      <h2>I write stories<br><em>you disappear into.</em></h2>
+      <p>I'm Anika — writer, archer, and aspiring builder of immersive adventure writing retreats. My stories live in the hazy space between the real and the mythic.</p>
+      <p>When I'm not writing, I'm planning the retreat where writers can do exactly what I do — live inside the story, for a little while.</p>
+      <div class="stats" style="margin-top:28px">
+        <div><div class="stat-num">16</div><div class="stat-label">Posts</div></div>
+        <div><div class="stat-num">1</div><div class="stat-label">Retreat in Progress</div></div>
+      </div>
+    </div>
+    <div class="me-about-img reveal">
+      <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <radialGradient id="mePhotoGrad" cx="50%" cy="38%" r="60%">
+            <stop offset="0%" stop-color="#c0c4c0"/>
+            <stop offset="100%" stop-color="#8e9290"/>
+          </radialGradient>
+          <linearGradient id="mePhotoFog" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="55%" stop-color="transparent"/>
+            <stop offset="100%" stop-color="#c4c0b8" stop-opacity="0.55"/>
+          </linearGradient>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#mePhotoGrad)"/>
+        <ellipse cx="50%" cy="30%" rx="22%" ry="22%" fill="#7a7e78" opacity="0.3"/>
+        <rect x="36%" y="52%" width="28%" height="48%" fill="#7a7e78" opacity="0.22"/>
+        <rect width="100%" height="100%" fill="url(#mePhotoFog)"/>
+      </svg>
+      <div class="me-badge"><p class="me-badge-text">aspiring author</p></div>
+    </div>
+  </div>
+
+  <!-- Subscribe -->
+  <div class="me-subscribe" id="me-subscribe">
+    <h2 class="reveal">Letters from <em>the fog.</em></h2>
+    <p class="reveal">Stories and dispatches from the worlds I'm building. Nothing loud — just writing worth lingering over.</p>
+    <div class="me-sub-wrap reveal">
+      <input class="me-sub-input" type="email" placeholder="your@email.com">
+      <button class="me-sub-btn" onclick="handleSub(this,this.previousElementSibling)">Subscribe</button>
+    </div>
+  </div>
+
+  <footer class="me-footer">
+    <span class="me-footer-name">Anika Ballowry</span>
+    <ul class="me-footer-links">
+      <li><a href="#">Writing</a></li><li><a href="#">About</a></li>
+      <li><a href="https://instagram.com/anika_ballowry" target="_blank">Instagram</a></li>
+    </ul>
+    <span style="font-size:0.6rem;color:rgba(154,150,144,0.2);letter-spacing:0.08em">© 2026</span>
+  </footer>
+</div>
 
 <script>
-  // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+/* ——— DEMO SWITCHER ——— */
+let currentDemo = 1;
+function switchDemo(n) {
+  document.querySelectorAll('.demo-page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.demo-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('demo'+n).classList.add('active');
+  document.querySelectorAll('.demo-tab')[n-1].classList.add('active');
+  currentDemo = n;
+  window.scrollTo({top:0,behavior:'instant'});
+  // Re-trigger reveal for new demo
+  setTimeout(setupReveal, 50);
+}
 
-  reveals.forEach(el => observer.observe(el));
+/* ——— PARALLAX ——— */
+function parallaxHandler() {
+  const sy = window.scrollY;
+  // Demo 1
+  if (currentDemo === 1) {
+    const sky = document.getElementById('pSky');
+    const far = document.getElementById('pCloudsFar');
+    const near = document.getElementById('pCloudsNear');
+    const mist = document.getElementById('pMist');
+    const trees = document.getElementById('pTrees');
+    if (sky) sky.style.transform = `translateY(${sy * 0.08}px)`;
+    if (far) far.style.transform = `translateY(${sy * 0.18}px)`;
+    if (near) near.style.transform = `translateY(${sy * 0.32}px)`;
+    if (mist) mist.style.transform = `translateY(${sy * 0.22}px)`;
+    if (trees) trees.style.transform = `translateY(${sy * 0.42}px)`;
+  }
+  // Demo 2
+  if (currentDemo === 2) {
+    const bg = document.getElementById('daBg');
+    const clouds = document.getElementById('daClouds');
+    const dmist = document.getElementById('daMist');
+    const dtrees = document.getElementById('daTrees');
+    if (bg) bg.style.transform = `translateY(${sy * 0.06}px)`;
+    if (clouds) clouds.style.transform = `translateY(${sy * 0.2}px)`;
+    if (dmist) dmist.style.transform = `translateY(${sy * 0.28}px)`;
+    if (dtrees) dtrees.style.transform = `translateY(${sy * 0.45}px)`;
+  }
+  // Demo 3
+  if (currentDemo === 3) {
+    const mt = document.getElementById('meTrees');
+    if (mt) mt.style.transform = `translateY(${sy * 0.38}px)`;
+  }
+}
+window.addEventListener('scroll', parallaxHandler, {passive:true});
 
-  // Subscribe button feedback
-  const btn = document.querySelector('.subscribe-btn');
-  const input = document.querySelector('.subscribe-input');
-  btn.addEventListener('click', () => {
-    if (input.value.includes('@')) {
-      btn.textContent = 'Thank you ✓';
-      btn.style.background = '#8a9e8e';
-      btn.style.borderColor = '#8a9e8e';
-      setTimeout(() => {
-        btn.textContent = 'Subscribe';
-        btn.style.background = '';
-        btn.style.borderColor = '';
-        input.value = '';
-      }, 3000);
-    } else {
-      input.style.borderColor = '#a08888';
-      setTimeout(() => input.style.borderColor = '', 1500);
-    }
-  });
+/* ——— SCROLL REVEAL ——— */
+function setupReveal() {
+  const items = document.querySelectorAll('#demo'+currentDemo+' .reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, {threshold:0.1, rootMargin:'0px 0px -30px 0px'});
+  items.forEach(el => { el.classList.remove('visible'); obs.observe(el); });
+}
+setupReveal();
+
+/* ——— SUBSCRIBE HANDLER ——— */
+function handleSub(btn, input) {
+  if (input.value.includes('@')) {
+    const orig = btn.textContent;
+    const origBg = btn.style.background;
+    btn.textContent = '✓ Thank you';
+    btn.style.background = '#8a9e8e';
+    btn.style.borderColor = '#8a9e8e';
+    setTimeout(() => {
+      btn.textContent = orig;
+      btn.style.background = origBg;
+      btn.style.borderColor = '';
+      input.value = '';
+    }, 3000);
+  } else {
+    input.style.borderColor = '#a08888';
+    setTimeout(() => input.style.borderColor = '', 1500);
+  }
+}
 </script>
-
 </body>
 </html>
